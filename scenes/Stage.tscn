@@ -1,18 +1,23 @@
-[gd_scene format=3 uid="uid://shkw5ab00lsl"]
+[gd_scene load_steps=4 format=3 uid="uid://shkw5ab00lsl"]
+
+[ext_resource type="Texture2D" uid="uid://8jt27f5n5uwy" path="res://assets/gfx/Menu/Backgrounds/Floor.PNG" id="1_slfcd"]
+[ext_resource type="Texture2D" uid="uid://bfxde6v8yq7tb" path="res://assets/gfx/Menu/Backgrounds/wall.PNG" id="2_xag0j"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pw1ki"]
+radius = 336.121
 
 [node name="Stage" type="Area2D"]
 position = Vector2(1, 1)
 disable_mode = 1
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-modulate = Color(0.180392, 0.439216, 0.254902, 1)
-position = Vector2(-1.00002, -3.00002)
-scale = Vector2(3.35201, 3.35201)
+[node name="Floor" type="Sprite2D" parent="."]
+scale = Vector2(0.18, 0.18)
+texture = ExtResource("1_slfcd")
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
+[node name="Wall" type="Sprite2D" parent="."]
+position = Vector2(-18, -90.5)
+scale = Vector2(0.145333, 0.176167)
+texture = ExtResource("2_xag0j")
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
-position = Vector2(-1.00002, -3.00002)
-scale = Vector2(2.69141, 2.69141)
-build_mode = 1
-polygon = PackedVector2Array(49, -123.6, 53.132, -122.241, 74, -110.3, 74, -108.9, 100, -86.9, 100, -84.7, 117, -62.7, 119.64, -57.5906, 128, -35.4, 131.901, -16.3483, 132.273, 3.34398, 128, 30.8, 121.5, 54, 119.64, 56.8475, 111.466, 70.2234, 109, 74, 99, 88, 97.3468, 89.1726, 73.9389, 108.122, 69.4803, 111.837, 52.6, 122, 47.5587, 123.727, 35.4, 128, -1.85775, 130.415, -37, 128, -40.1277, 127.071, -54, 121.5, -58.3337, 119.64, -74, 110.2, -78.026, 107.007, -100, 86.9, -102.177, 83.5993, -117, 62.7, -117.782, 60.1915, -128, 32.5, -130.786, 1.48622, -128, -34, -123.5, -49, -121.869, -52.0173, -111.466, -72.8243, -108.122, -77.6545, -86.9, -100, -83.2277, -103.292, -63.907, -116.667, -58.3337, -119.268, -47.5, -124, -41.9854, -125.585, -30.7, -128, 0.37156, -129.672, 31, -128)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_pw1ki")

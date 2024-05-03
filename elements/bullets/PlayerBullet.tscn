@@ -3,36 +3,63 @@
 [ext_resource type="Texture2D" uid="uid://82cnplq02336" path="res://assets/gfx/Player/Confetti_Bullet_Full.png" id="2_8ybum"]
 
 [sub_resource type="GDScript" id="GDScript_rk1du"]
-script/source = "extends CharacterBody2D
+script/source = "extends Area2D
 
-@export
-var bulletSpeed:float=200
-@export
-var maxBounceCount:int=10
+var _damage : float
+var _maxBounceCount : int 
+var _bounceCount : int 
+var _confettiTimer : float
+var _confettiFrequency : float 
+var velocity
 
-var bounceCount:int=0
 
-#Bounce collision handled by CharacterBody2D collision
-#Everything else handled by Area2D collision
+func Move(delta):
+	global_position += velocity * delta
+
+func _process(delta):
+	if _bounceCount == _maxBounceCount:
+		Destruction()
+	
+	Move(delta)
+	CreateTrail(delta)
+	_confettiTimer += delta
+	
+func Destruction():
+	queue_free()
+
+func CreateTrail(delta):	
+	if _confettiTimer > _confettiFrequency:
+		var trail : Node2D = preload(\"res://elements/Player/ConfettiTrail.tscn\").instantiate()
+		trail.global_position = global_position
+		get_parent().get_node(\"FloorDebris\").add_child(trail)
+		_confettiTimer = 0
+
+func _on_area_entered(area):
+	print(\"Area\")
+
+
+func _on_area_exited(area):
+	if \"Stage\" in area.name:
+		print(tan(deg_to_rad(global_position.angle_to_point(Vector2(0,0)))))
+		
+		_bounceCount += 1
 "
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_cxhj1"]
+radius = 8.75
 
-[node name="PlayerBullet" type="CharacterBody2D"]
+[node name="PlayerBullet" type="Area2D"]
+scale = Vector2(0.1, 0.1)
 script = SubResource("GDScript_rk1du")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 scale = Vector2(0.986982, 0.986982)
 texture = ExtResource("2_8ybum")
 
-[node name="Collision" type="CollisionShape2D" parent="."]
+[node name="Collsion" type="CollisionShape2D" parent="."]
 scale = Vector2(8, 8)
 shape = SubResource("CircleShape2D_cxhj1")
 one_way_collision_margin = 3.5
 
-[node name="Area2D" type="Area2D" parent="."]
-
-[node name="PlayerColl" type="CollisionShape2D" parent="Area2D"]
-scale = Vector2(8, 8)
-shape = SubResource("CircleShape2D_cxhj1")
-one_way_collision_margin = 3.5
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="area_exited" from="." to="." method="_on_area_exited"]

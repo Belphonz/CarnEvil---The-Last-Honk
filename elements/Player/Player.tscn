@@ -99,3 +99,4 @@ position = Vector2(-105.158, -83.4189)
 scale = Vector2(0.1, 0.1)
 
 [connection signal="area_entered" from="PlayerCollider" to="." method="_on_player_collider_area_entered"]
+[connection signal="area_exited" from="PlayerCollider" to="." method="_on_player_collider_area_exited"]

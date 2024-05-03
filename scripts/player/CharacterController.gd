@@ -5,11 +5,12 @@ extends Node2D
 @export var BULLET_BOUNCE_COUNT:int = 3
 @export var BULLET_DAMAGE:float = 3
 @export var BULLET_SPEED:float = 400.0
+@export var BULLET_TRAIL_FREQUENCY:float = 0.03
 @export var FIRE_RATE:float = 0.4
 
 var _currentFireRate = 0.0
 var _moveDirection
-var velocity
+var velocity : Vector2
 var _lastSavedMoveDirection
 var _bulletID = 0
 
@@ -37,8 +38,15 @@ var _isDashing : bool
 var _usingController:bool = false
 var isLeft : bool = false
 var _rotationFrame : int
+var _bouncingBackIntoStage : bool
+var _bouncingBackIntoStageTimer : float
 
 var HealthBar:Node2D
+
+@export var STAGE_BOUNCE_STRENGTH = 15
+@export var STAGE_BOUNCE_DURATION = 0.25
+@export var STAGE_BOUNCE_FRICTION = 0.7
+@export var STAGE_BOUNCES_UNTIL_DEATH = 3
 
 
 func _ready():
@@ -56,19 +64,41 @@ func Dash(delta):
 		_isDashing = false
 		
 func Controller(delta):
-	if not _isDashing:
+	if not _isDashing and not _bouncingBackIntoStage:
 		_moveDirection = Input.get_vector("move_left", "move_right", "move_up", "move_down").normalized()
 		_lastSavedMoveDirection = _moveDirection
 	Dash(delta)
-	if _isDashing:
+	print(_moveDirection)
+	if _isDashing and not _bouncingBackIntoStage:
 		velocity = _lastSavedMoveDirection * MOVE_SPEED * DASH_SPEED_MULTIPLIER
-	else:
+	elif not _bouncingBackIntoStage:
 		velocity = _moveDirection * MOVE_SPEED
-	
+	if _bouncingBackIntoStage:
+		_bouncingBackIntoStageTimer -= delta
+		velocity *= STAGE_BOUNCE_FRICTION
+		if _bouncingBackIntoStageTimer <= 0:
+			_bouncingBackIntoStage = false
+	VelocityDeath()		
 	Animate(delta)	
 	global_position += velocity * delta
-	
-	
+
+func VelocityDeath():
+	var VelocityDeathSpeedX = _lastSavedMoveDirection.abs().x * MOVE_SPEED * DASH_SPEED_MULTIPLIER * STAGE_BOUNCE_STRENGTH * STAGE_BOUNCES_UNTIL_DEATH
+	var VelocityDeathSpeedY = _lastSavedMoveDirection.abs().y * MOVE_SPEED * DASH_SPEED_MULTIPLIER * STAGE_BOUNCE_STRENGTH * STAGE_BOUNCES_UNTIL_DEATH
+	if (velocity.x != 0 or velocity.y != 0):
+		if (velocity.abs().x > VelocityDeathSpeedX) and velocity.y == 0:
+			_health = 0
+			print("A")
+		if (velocity.abs().y > VelocityDeathSpeedY) and velocity.x == 0:
+			print(velocity.abs().y)
+			print(_lastSavedMoveDirection.abs().y)
+			_health = 0
+			print("B")
+		if (velocity.abs().x > VelocityDeathSpeedX) and velocity.y != 0:
+			if (velocity.abs().y > VelocityDeathSpeedY) and velocity.x != 0:
+				_health = 0
+				print("C")
+				
 func Animate(delta):
 	const leftDirection = [0,1,7]
 	var animation = get_child(0) as AnimatedSprite2D
@@ -114,16 +144,16 @@ func Shoot(delta):
 func Create_Bullet(delta,facingdirection,shootPoint):
 	var audioShoot = get_child(2) as AudioStreamPlayer2D
 	audioShoot.play()
-	var bulletInstance:CharacterBody2D = preload("res://elements/Bullets/Bullet.tscn").instantiate()
-	bulletInstance.speed = BULLET_SPEED
-	bulletInstance.direction = facingdirection
-	bulletInstance.isPlayerBullet = true
-	bulletInstance.damage = BULLET_DAMAGE
-	bulletInstance.maxBounceCount = BULLET_BOUNCE_COUNT
+	var bulletInstance:Area2D = preload("res://elements/Bullets/PlayerBullet.tscn").instantiate()
+
+	bulletInstance._damage = BULLET_DAMAGE
+	bulletInstance._maxBounceCount = BULLET_BOUNCE_COUNT
+	bulletInstance._confettiFrequency = BULLET_TRAIL_FREQUENCY
+	bulletInstance.velocity = facingdirection * BULLET_SPEED
 	
 	_bulletID += 1
 	bulletInstance.name = "PlBullet " + str(_bulletID)
-	bulletInstance.global_position = shootPoint.global_position + (facingdirection * 30)
+	bulletInstance.global_position = shootPoint.global_position + (facingdirection * 35)
 	get_parent().add_child(bulletInstance)
 	_currentFireRate = 0
 	
@@ -188,6 +218,11 @@ func _on_player_collider_area_entered(area):
 		_iFramesActive=true
 		var Enemy:Node2D=area.get_parent()
 		_health -= Enemy.PHYSICAL_DAMAGE
-		
-		
 	
+func _on_player_collider_area_exited(area):
+	if "Stage" in area.name:
+		print(area.name)
+		_bouncingBackIntoStage = true
+		velocity = - velocity * STAGE_BOUNCE_STRENGTH
+		_bouncingBackIntoStageTimer = STAGE_BOUNCE_DURATION
+		
