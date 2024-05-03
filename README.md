@@ -1,22 +1,6 @@
-# GlobalGameJam2024
+# CarnEvil: The Last Honk
+### The Complete Version of the [GGJ 2024 game of the "Too many Cooks" Team](https://github.com/Belphonz/GlobalGameJam2024)
+![BGMenu](https://github.com/Belphonz/CarnEvil---The-Last-Honk/assets/83226538/450ae7ff-05b4-4646-a5d4-f029cc20038e)
+### Created in the Godot Engine
 
-# Too Many Cooks!
-# Team :
-## Design :
-### - [Willow (Design Lead and Overall Team Lead)](https://github.com/SBTMackie)
-### - [Rebecca Taylor (Audio Lead)](https://github.com/Azaersyss)
 
-## Programmers :
-### - [Cassie Parsons (Programmer Lead and Graphics Programmer)](https://github.com/CassieParticles)
-### - [Aethel B. Crown (Source Control Manager)](https://github.com/Belphonz)
-### - [Salem](https://github.com/SBTMackie)
-### - [Adele Bauer](https://github.com/AdelePrism)
-### - [Goob](https://github.com/GuestGoob)
-
-## Artists : 
-### - Emily Wilkins (Artist Lead)
-### - Eden Dunbar
-### - Ellie Powell
-### - Jenna Black
-### - [Rebecca Taylor](https://github.com/Azaersyss)
-:3
