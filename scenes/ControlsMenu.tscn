@@ -1,9 +1,9 @@
 [gd_scene load_steps=6 format=3 uid="uid://cevjl4t8u2m5r"]
 
-[ext_resource type="Script" path="res://scripts/tutorialScreen.gd" id="1_5gpcg"]
-[ext_resource type="Texture2D" uid="uid://ddwqkefwe2dr" path="res://assets/gfx/Menu/BGMenu.png" id="2_l0ni7"]
-[ext_resource type="Texture2D" uid="uid://52ei7jarx11b" path="res://assets/gfx/Menu/controlsList/controlsList.png" id="2_t5t2w"]
-[ext_resource type="FontFile" uid="uid://djtmfhr34omsr" path="res://assets/gfx/CorrectionBrush.ttf" id="3_4cx53"]
+[ext_resource type="Script" path="res://scripts/TutorialScreen.gd" id="1_5gpcg"]
+[ext_resource type="Texture2D" uid="uid://ddwqkefwe2dr" path="res://assets/gfx/Menu/Backgrounds/BGMenu.png" id="2_l0ni7"]
+[ext_resource type="Texture2D" uid="uid://52ei7jarx11b" path="res://assets/gfx/Menu/ControlsList.png" id="2_t5t2w"]
+[ext_resource type="FontFile" uid="uid://djtmfhr34omsr" path="res://assets/gfx/Fonts/CorrectionBrush.ttf" id="3_4cx53"]
 [ext_resource type="AudioStream" uid="uid://c3tijyvbg4uo4" path="res://assets/sfx/Themes/Main_Menu_Theme.wav" id="5_nlafe"]
 
 [node name="Node2D" type="Node2D"]

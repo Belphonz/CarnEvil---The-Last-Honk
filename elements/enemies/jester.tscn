@@ -1,9 +1,9 @@
 [gd_scene load_steps=6 format=3 uid="uid://wtwyty7fxiou"]
 
-[ext_resource type="PackedScene" uid="uid://b0iranba74mqb" path="res://elements/enemies/baseEnemy.tscn" id="1_akicf"]
-[ext_resource type="Script" path="res://scripts/enemy/jester.gd" id="2_s703p"]
-[ext_resource type="Texture2D" uid="uid://csqandwfxx6jr" path="res://assets/gfx/Enemy/jester/JesterFront.PNG" id="3_vdu63"]
-[ext_resource type="Texture2D" uid="uid://dc532ivf2mdwo" path="res://assets/gfx/Enemy/jester/JesterBack.PNG" id="4_3poe7"]
+[ext_resource type="PackedScene" uid="uid://b0iranba74mqb" path="res://elements/Enemies/BaseEnemy.tscn" id="1_akicf"]
+[ext_resource type="Script" path="res://scripts/Enemy/Jester.gd" id="2_s703p"]
+[ext_resource type="Texture2D" uid="uid://csqandwfxx6jr" path="res://assets/gfx/Enemy/Jester/JesterFront.PNG" id="3_vdu63"]
+[ext_resource type="Texture2D" uid="uid://dc532ivf2mdwo" path="res://assets/gfx/Enemy/Jester/JesterBack.PNG" id="4_3poe7"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_1oamx"]
 animations = [{

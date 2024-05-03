@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://csqandwfxx6jr"
-path="res://.godot/imported/JesterFront.PNG-77801d1d445ffbcead5ade6b8e414b01.ctex"
+path="res://.godot/imported/JesterFront.PNG-6b7720dd2f699a4db4f26bb5d85cda57.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/gfx/Enemy/jester/JesterFront.PNG"
-dest_files=["res://.godot/imported/JesterFront.PNG-77801d1d445ffbcead5ade6b8e414b01.ctex"]
+source_file="res://assets/gfx/Enemy/Jester/JesterFront.PNG"
+dest_files=["res://.godot/imported/JesterFront.PNG-6b7720dd2f699a4db4f26bb5d85cda57.ctex"]
 
 [params]
 

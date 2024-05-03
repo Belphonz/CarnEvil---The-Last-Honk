@@ -10,14 +10,14 @@ config_version=5
 
 [application]
 
-config/name="GlobalGameJam"
+config/name="CarnEvil : The Last Honk"
 run/main_scene="res://scenes/Menu.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
-Highscore="*res://scripts/ReadScores.gd"
+Highscore="*res://scripts/UI/ReadScores.gd"
 
 [display]
 

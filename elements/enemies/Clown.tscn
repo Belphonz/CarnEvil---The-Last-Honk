@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://diokg6804xyhq"]
 
-[ext_resource type="PackedScene" uid="uid://b0iranba74mqb" path="res://elements/enemies/baseEnemy.tscn" id="1_0b1j0"]
-[ext_resource type="Script" path="res://scripts/enemy/Clown.gd" id="2_54rru"]
+[ext_resource type="PackedScene" uid="uid://b0iranba74mqb" path="res://elements/Enemies/BaseEnemy.tscn" id="1_0b1j0"]
+[ext_resource type="Script" path="res://scripts/Enemy/Clown.gd" id="2_54rru"]
 [ext_resource type="Texture2D" uid="uid://bp6nurs44b5xm" path="res://assets/gfx/Enemy/Clown/ClownThrownEnd.png" id="3_ey5n5"]
 [ext_resource type="Texture2D" uid="uid://qsyss6rr4b06" path="res://assets/gfx/Enemy/Clown/ClownIdle.png" id="3_l5prd"]
 [ext_resource type="Texture2D" uid="uid://04k2m7n0mkkp" path="res://assets/gfx/Enemy/Clown/ClownBackIdle.png" id="4_1m7v3"]

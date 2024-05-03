@@ -1,7 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://drbqja0xtoviq"]
-
-[ext_resource type="Script" path="res://scripts/enemy/waveGenerator.gd" id="1_wefuj"]
-
-[node name="WaveManager" type="Node2D"]
-script = ExtResource("1_wefuj")
-clownChances = [1.0, 0.5]

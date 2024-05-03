@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://n0b360p5ayjs"
-path="res://.godot/imported/Bell.png-7fc7681624096ea3016f82de1ff2c0a3.ctex"
+path="res://.godot/imported/Bell.png-5282118731e7dede854eea205034618b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/gfx/Enemy/jester/Bell.png"
-dest_files=["res://.godot/imported/Bell.png-7fc7681624096ea3016f82de1ff2c0a3.ctex"]
+source_file="res://assets/gfx/Enemy/Jester/Bell.png"
+dest_files=["res://.godot/imported/Bell.png-5282118731e7dede854eea205034618b.ctex"]
 
 [params]
 

@@ -1,0 +1,48 @@
+[gd_scene load_steps=10 format=3 uid="uid://dgaq3hxtqfpiy"]
+
+[ext_resource type="Texture2D" uid="uid://do8fk4sxppdul" path="res://assets/gfx/Enemy/Bloodsplatter/BloodSplatter_1.png" id="1_7kkxs"]
+[ext_resource type="Texture2D" uid="uid://b35hf2gygjet0" path="res://assets/gfx/Enemy/Bloodsplatter/BloodSplatter_2.png" id="2_rujfa"]
+[ext_resource type="Texture2D" uid="uid://d1m1hy8bevffc" path="res://assets/gfx/Enemy/Bloodsplatter/BloodSplatter_3.png" id="3_6lr00"]
+[ext_resource type="Texture2D" uid="uid://br0c0dmcgspli" path="res://assets/gfx/Enemy/Bloodsplatter/BloodSplatter_4.png" id="4_3llm0"]
+[ext_resource type="Texture2D" uid="uid://c85b3bu6s64p5" path="res://assets/gfx/Enemy/Bloodsplatter/BloodSplatter_5.png" id="5_5srm6"]
+[ext_resource type="Texture2D" uid="uid://dbukgbai8mqtp" path="res://assets/gfx/Enemy/Bloodsplatter/BloodSplatter_7.png" id="6_7rnnq"]
+[ext_resource type="Texture2D" uid="uid://c0hywlgcy721i" path="res://assets/gfx/Enemy/Bloodsplatter/BloodSplatter_8.png" id="7_vfivw"]
+[ext_resource type="Script" path="res://scripts/Enemy/Bloodsplatter.gd" id="8_i54g4"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wtxst"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_7kkxs")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_rujfa")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_6lr00")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_6lr00")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_3llm0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_5srm6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_7rnnq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_vfivw")
+}],
+"loop": false,
+"name": &"Default",
+"speed": 5.0
+}]
+
+[node name="Bloodsplatter" type="AnimatedSprite2D"]
+scale = Vector2(0.025, 0.025)
+sprite_frames = SubResource("SpriteFrames_wtxst")
+animation = &"Default"
+script = ExtResource("8_i54g4")

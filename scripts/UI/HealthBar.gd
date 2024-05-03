@@ -6,9 +6,9 @@ var healthBar:TextureProgressBar
 var health:float=5
 var maxHealth:float=6.0
 
-var bar_red = preload("res://assets/gfx/UI/healthBarRed.png")
-var bar_yellow = preload("res://assets/gfx/UI/healthBarYellow.png")
-var bar_green = preload("res://assets/gfx/UI/healthBarGreen.png")
+var bar_red = preload("res://assets/gfx/UI/HealthBar/HealthBarRed.png")
+var bar_yellow = preload("res://assets/gfx/UI/HealthBar/HealthBarYellow.png")
+var bar_green = preload("res://assets/gfx/UI/HealthBar/HealthBarGreen.png")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

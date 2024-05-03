@@ -1,37 +1,37 @@
 [gd_scene load_steps=7 format=3 uid="uid://0txhtv3v5vdk"]
 
-[ext_resource type="PackedScene" uid="uid://b0iranba74mqb" path="res://elements/enemies/baseEnemy.tscn" id="1_vgwdo"]
-[ext_resource type="Texture2D" uid="uid://cmtd5suen1l8y" path="res://assets/gfx/Enemy/Lion Tamer/LionTamer1.png" id="2_64qg5"]
-[ext_resource type="Script" path="res://scripts/enemy/LionTamer.gd" id="2_k6dxg"]
-[ext_resource type="Texture2D" uid="uid://ewrir5a763nw" path="res://assets/gfx/Enemy/Lion Tamer/LionTamer2.png" id="4_fi7wh"]
-[ext_resource type="Texture2D" uid="uid://cgq55p1hq6jt4" path="res://assets/gfx/Enemy/Lion Tamer/LionTamerSad.png" id="5_yupmu"]
+[ext_resource type="PackedScene" uid="uid://b0iranba74mqb" path="res://elements/Enemies/BaseEnemy.tscn" id="1_70cm2"]
+[ext_resource type="Script" path="res://scripts/Enemy/LionTamer.gd" id="2_wmctx"]
+[ext_resource type="Texture2D" uid="uid://cmtd5suen1l8y" path="res://assets/gfx/Enemy/Lion Tamer/LionTamer1.png" id="3_vliim"]
+[ext_resource type="Texture2D" uid="uid://ewrir5a763nw" path="res://assets/gfx/Enemy/Lion Tamer/LionTamer2.png" id="4_idb5v"]
+[ext_resource type="Texture2D" uid="uid://cgq55p1hq6jt4" path="res://assets/gfx/Enemy/Lion Tamer/LionTamerSad.png" id="5_0hxn4"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_fsm27"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_64qg5")
+"texture": ExtResource("3_vliim")
 }, {
 "duration": 1.0,
-"texture": ExtResource("4_fi7wh")
+"texture": ExtResource("4_idb5v")
 }, {
 "duration": 1.0,
-"texture": ExtResource("4_fi7wh")
+"texture": ExtResource("4_idb5v")
 }, {
 "duration": 1.0,
-"texture": ExtResource("4_fi7wh")
+"texture": ExtResource("4_idb5v")
 }, {
 "duration": 1.0,
-"texture": ExtResource("2_64qg5")
+"texture": ExtResource("3_vliim")
 }, {
 "duration": 1.0,
-"texture": ExtResource("2_64qg5")
+"texture": ExtResource("3_vliim")
 }, {
 "duration": 1.0,
-"texture": ExtResource("2_64qg5")
+"texture": ExtResource("3_vliim")
 }, {
 "duration": 1.0,
-"texture": ExtResource("2_64qg5")
+"texture": ExtResource("3_vliim")
 }],
 "loop": true,
 "name": &"Idle",
@@ -39,15 +39,15 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("5_yupmu")
+"texture": ExtResource("5_0hxn4")
 }],
 "loop": true,
 "name": &"Sad",
 "speed": 5.0
 }]
 
-[node name="BaseEnemy" instance=ExtResource("1_vgwdo")]
-script = ExtResource("2_k6dxg")
+[node name="BaseEnemy" instance=ExtResource("1_70cm2")]
+script = ExtResource("2_wmctx")
 
 [node name="Sprite2D" parent="." index="0"]
 scale = Vector2(0.075, 0.077)

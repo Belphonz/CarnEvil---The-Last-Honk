@@ -1,4 +1,4 @@
-extends "res://scripts/enemy/baseEnemy.gd"
+extends "res://scripts/Enemy/BaseEnemy.gd"
 
 var Bullet:Node2D
 @export

@@ -6,7 +6,7 @@ radius = 88.0698
 [sub_resource type="CircleShape2D" id="CircleShape2D_rurwp"]
 radius = 117.004
 
-[node name="BaseEnemy2" type="CharacterBody2D"]
+[node name="BaseEnemy" type="CharacterBody2D"]
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="."]
 

@@ -1,8 +1,8 @@
 [gd_scene load_steps=7 format=3 uid="uid://5r5oq3pr8bb7"]
 
-[ext_resource type="Script" path="res://scripts/bullets/bullet.gd" id="1_smo80"]
+[ext_resource type="Script" path="res://scripts/Bullets/bullet.gd" id="1_smo80"]
 [ext_resource type="Texture2D" uid="uid://82cnplq02336" path="res://assets/gfx/Player/Confetti_Bullet_Full.png" id="2_f8hqk"]
-[ext_resource type="Texture2D" uid="uid://cu4a2xr2p76hr" path="res://assets/gfx/Enemy/clown47/ClownBullet.png" id="3_0g5tm"]
+[ext_resource type="Texture2D" uid="uid://cu4a2xr2p76hr" path="res://assets/gfx/Enemy/Clown47/ClownBullet.png" id="3_0g5tm"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xq4ye"]
 

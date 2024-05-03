@@ -1,9 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://bc7ka0053noyb"]
+[gd_scene load_steps=5 format=3 uid="uid://bc7ka0053noyb"]
 
-[ext_resource type="Script" path="res://scripts/Menu.gd" id="1_s7svw"]
-[ext_resource type="Texture2D" uid="uid://ddwqkefwe2dr" path="res://assets/gfx/Menu/BGMenu.png" id="2_pdvhk"]
-[ext_resource type="Texture2D" uid="uid://c0la3jc5omihc" path="res://assets/gfx/Menu/TitleLogoTEMP.png" id="3_hvxcm"]
-[ext_resource type="FontFile" uid="uid://djtmfhr34omsr" path="res://assets/gfx/CorrectionBrush.ttf" id="3_rxeui"]
+[ext_resource type="Script" path="res://scripts/UI/Menu.gd" id="1_s7svw"]
+[ext_resource type="Texture2D" uid="uid://ddwqkefwe2dr" path="res://assets/gfx/Menu/Backgrounds/BGMenu.png" id="2_pdvhk"]
+[ext_resource type="FontFile" uid="uid://djtmfhr34omsr" path="res://assets/gfx/Fonts/CorrectionBrush.ttf" id="3_rxeui"]
 [ext_resource type="AudioStream" uid="uid://c3tijyvbg4uo4" path="res://assets/sfx/Themes/Main_Menu_Theme.wav" id="4_put7u"]
 
 [node name="Menu" type="Node2D"]
@@ -40,11 +39,6 @@ offset_bottom = 608.0
 theme_override_fonts/font = ExtResource("3_rxeui")
 text = "Quit
 "
-
-[node name="Title" type="Sprite2D" parent="."]
-position = Vector2(576, 112)
-scale = Vector2(0.274691, 0.274691)
-texture = ExtResource("3_hvxcm")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("4_put7u")

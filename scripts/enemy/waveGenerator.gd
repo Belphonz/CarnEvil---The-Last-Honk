@@ -38,7 +38,7 @@ func _ready():
 	
 	for i in 5:
 		chanceRanges.append(0.0)
-	spawnWave()
+	#spawnWave()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -50,7 +50,7 @@ func _process(delta):
 			enemiesToSpawn-=1
 			spawnEnemy()
 	if(EnemyManager.getEnemyCount()==0 && enemiesToSpawn == 0):
-		spawnWave()
+		#spawnWave()
 		pass
 
 func spawnEnemy():

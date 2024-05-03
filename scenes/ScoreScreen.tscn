@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=3 uid="uid://t1s1qp1nrblc"]
 
-[ext_resource type="Script" path="res://scripts/ScoreScreen.gd" id="1_0h8f4"]
-[ext_resource type="Texture2D" uid="uid://bgox1nmwjs8yx" path="res://assets/gfx/Menu/DeathScreen.png" id="1_xn208"]
-[ext_resource type="FontFile" uid="uid://djtmfhr34omsr" path="res://assets/gfx/CorrectionBrush.ttf" id="3_h6xbi"]
+[ext_resource type="Script" path="res://scripts/UI/ScoreScreen.gd" id="1_0h8f4"]
+[ext_resource type="Texture2D" uid="uid://bgox1nmwjs8yx" path="res://assets/gfx/Menu/Backgrounds/DeathScreen.png" id="1_xn208"]
+[ext_resource type="FontFile" uid="uid://djtmfhr34omsr" path="res://assets/gfx/Fonts/CorrectionBrush.ttf" id="3_h6xbi"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_g2dt0"]
 

@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b0gowbgedveg8"
-path="res://.godot/imported/ringmasterIdle.png-5cd833498791cab6c85e1d2a6abd395d.ctex"
+path="res://.godot/imported/ringmasterIdle.png-796dc28fb1ed6cda43736470bfa79f86.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/gfx/Enemy/ringmaster/ringmasterIdle.png"
-dest_files=["res://.godot/imported/ringmasterIdle.png-5cd833498791cab6c85e1d2a6abd395d.ctex"]
+source_file="res://assets/gfx/Enemy/Ringmaster/ringmasterIdle.png"
+dest_files=["res://.godot/imported/ringmasterIdle.png-796dc28fb1ed6cda43736470bfa79f86.ctex"]
 
 [params]
 

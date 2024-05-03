@@ -1,11 +1,11 @@
 [gd_scene load_steps=11 format=3 uid="uid://ddvjdlrsw7l8d"]
 
-[ext_resource type="Texture2D" uid="uid://ggjso3uj7m6n" path="res://assets/gfx/Enemy/clown47/Clown47Aim.png" id="2_kckv0"]
-[ext_resource type="Script" path="res://scripts/enemy/clownWithAK47.gd" id="2_ud5t6"]
-[ext_resource type="Texture2D" uid="uid://coa24dgqhpbt7" path="res://assets/gfx/Enemy/clown47/Clown47Fire.png" id="3_gbe3u"]
-[ext_resource type="Texture2D" uid="uid://bme5rkwaot7ce" path="res://assets/gfx/Enemy/clown47/Clown47Idle.png" id="4_agu3x"]
+[ext_resource type="Texture2D" uid="uid://ggjso3uj7m6n" path="res://assets/gfx/Enemy/Clown47/Clown47Aim.png" id="2_kckv0"]
+[ext_resource type="Script" path="res://scripts/Enemy/ClownWithAK47.gd" id="2_ud5t6"]
+[ext_resource type="Texture2D" uid="uid://coa24dgqhpbt7" path="res://assets/gfx/Enemy/Clown47/Clown47Fire.png" id="3_gbe3u"]
+[ext_resource type="Texture2D" uid="uid://bme5rkwaot7ce" path="res://assets/gfx/Enemy/Clown47/Clown47Idle.png" id="4_agu3x"]
 [ext_resource type="AudioStream" uid="uid://dd3a30kc3npg2" path="res://assets/sfx/Enemy/Clown47/AK47_Cocking_Cue.wav" id="12_467cs"]
-[ext_resource type="Texture2D" uid="uid://sxth5ss8q8cu" path="res://assets/gfx/Enemy/clown47/Clown47Ass.png" id="12_vuckx"]
+[ext_resource type="Texture2D" uid="uid://sxth5ss8q8cu" path="res://assets/gfx/Enemy/Clown47/Clown47Ass.png" id="12_vuckx"]
 [ext_resource type="AudioStream" uid="uid://du3hond3kuvx4" path="res://assets/sfx/Enemy/Clown47/AK47_Fire.wav" id="13_vtfan"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_spym8"]

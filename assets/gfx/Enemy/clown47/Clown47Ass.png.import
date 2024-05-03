@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://sxth5ss8q8cu"
-path="res://.godot/imported/Clown47Ass.png-d5a0a69b7565dd72b3b7448728ae1301.ctex"
+path="res://.godot/imported/Clown47Ass.png-e5f00ee69f23c25585a14c24c8efac14.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/gfx/Enemy/clown47/Clown47Ass.png"
-dest_files=["res://.godot/imported/Clown47Ass.png-d5a0a69b7565dd72b3b7448728ae1301.ctex"]
+source_file="res://assets/gfx/Enemy/Clown47/Clown47Ass.png"
+dest_files=["res://.godot/imported/Clown47Ass.png-e5f00ee69f23c25585a14c24c8efac14.ctex"]
 
 [params]
 

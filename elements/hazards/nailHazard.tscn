@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://bcjhn8erac5pv"]
 
-[ext_resource type="Texture2D" uid="uid://dcsb3wx2ja4x3" path="res://assets/gfx/Enemy/jester/NailBall.png" id="2_7ceb8"]
-[ext_resource type="Script" path="res://scripts/hazards/nailHazard.gd" id="2_rli1a"]
+[ext_resource type="Texture2D" uid="uid://dcsb3wx2ja4x3" path="res://assets/gfx/Enemy/Jester/NailBall.png" id="2_7ceb8"]
+[ext_resource type="Script" path="res://scripts/Hazards/NailHazard.gd" id="2_rli1a"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_70go8"]
 

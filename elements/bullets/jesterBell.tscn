@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://dr1e2s3j2uwgy"]
 
-[ext_resource type="Script" path="res://scripts/bullets/jesterBell.gd" id="1_3yc2c"]
-[ext_resource type="Texture2D" uid="uid://n0b360p5ayjs" path="res://assets/gfx/Enemy/jester/Bell.png" id="2_o80bo"]
+[ext_resource type="Script" path="res://scripts/Bullets/jesterBell.gd" id="1_3yc2c"]
+[ext_resource type="Texture2D" uid="uid://n0b360p5ayjs" path="res://assets/gfx/Enemy/Jester/Bell.png" id="2_o80bo"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_dg0dc"]
 

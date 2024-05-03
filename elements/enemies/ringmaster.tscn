@@ -1,10 +1,10 @@
 [gd_scene load_steps=9 format=3 uid="uid://khln3p7tfa1i"]
 
-[ext_resource type="Script" path="res://scripts/enemy/ringmaster.gd" id="1_pbvv3"]
-[ext_resource type="Texture2D" uid="uid://b0gowbgedveg8" path="res://assets/gfx/Enemy/ringmaster/ringmasterIdle.png" id="2_5cy76"]
-[ext_resource type="Texture2D" uid="uid://bs3o3tegwepbr" path="res://assets/gfx/Enemy/ringmaster/ringmasterSpin1.png" id="3_x2ua5"]
-[ext_resource type="Texture2D" uid="uid://cb5hssqljbswb" path="res://assets/gfx/Enemy/ringmaster/ringmasterSpin2.png" id="4_i32bu"]
-[ext_resource type="Texture2D" uid="uid://vpwoyefm6my7" path="res://assets/gfx/Enemy/ringmaster/ringmasterBack.PNG" id="5_j7ipf"]
+[ext_resource type="Script" path="res://scripts/Enemy/Ringmaster.gd" id="1_pbvv3"]
+[ext_resource type="Texture2D" uid="uid://b0gowbgedveg8" path="res://assets/gfx/Enemy/Ringmaster/ringmasterIdle.png" id="2_5cy76"]
+[ext_resource type="Texture2D" uid="uid://bs3o3tegwepbr" path="res://assets/gfx/Enemy/Ringmaster/ringmasterSpin1.png" id="3_x2ua5"]
+[ext_resource type="Texture2D" uid="uid://cb5hssqljbswb" path="res://assets/gfx/Enemy/Ringmaster/ringmasterSpin2.png" id="4_i32bu"]
+[ext_resource type="Texture2D" uid="uid://vpwoyefm6my7" path="res://assets/gfx/Enemy/Ringmaster/ringmasterBack.PNG" id="5_j7ipf"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_p0x08"]
 animations = [{

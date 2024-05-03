@@ -53,7 +53,7 @@ func basicbounce(delta):
 
 func createtrail(delta):
 	if confettitimer > confettifrequency and isPlayerBullet:
-		var trail : Node2D = preload("res://elements/confettitrail.tscn").instantiate()
+		var trail : Node2D = preload("res://elements/Player/ConfettiTrail.tscn").instantiate()
 		trail.global_position = global_position
 		get_parent().get_node("BloodsplatterNode").add_child(trail)
 		confettitimer = 0

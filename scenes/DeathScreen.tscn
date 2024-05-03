@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://d2ivxp7d03k0i"]
 
-[ext_resource type="Script" path="res://scripts/DeathScreen.gd" id="1_28vv7"]
-[ext_resource type="Texture2D" uid="uid://bgox1nmwjs8yx" path="res://assets/gfx/Menu/DeathScreen.png" id="2_tjup3"]
-[ext_resource type="FontFile" uid="uid://djtmfhr34omsr" path="res://assets/gfx/CorrectionBrush.ttf" id="3_cbjd4"]
-[ext_resource type="Texture2D" uid="uid://43qwcwvnfchf" path="res://assets/gfx/Menu/_BigButton.png" id="4_2ema6"]
+[ext_resource type="Script" path="res://scripts/UI/DeathScreen.gd" id="1_28vv7"]
+[ext_resource type="Texture2D" uid="uid://bgox1nmwjs8yx" path="res://assets/gfx/Menu/Backgrounds/DeathScreen.png" id="2_tjup3"]
+[ext_resource type="FontFile" uid="uid://djtmfhr34omsr" path="res://assets/gfx/Fonts/CorrectionBrush.ttf" id="3_cbjd4"]
+[ext_resource type="Texture2D" uid="uid://43qwcwvnfchf" path="res://assets/gfx/UI/Buttons/BigButton.png" id="4_2ema6"]
 
 [node name="DeathScreen" type="Node2D"]
 script = ExtResource("1_28vv7")
