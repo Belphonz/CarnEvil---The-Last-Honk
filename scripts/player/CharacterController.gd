@@ -1,4 +1,4 @@
-extends CharacterBody2D
+extends Node2D
 
 @export var MAX_HEALTH:float = 6
 @export var MOVE_SPEED:float = 300.0
@@ -9,6 +9,7 @@ extends CharacterBody2D
 
 var _currentFireRate = 0.0
 var _moveDirection
+var velocity
 var _lastSavedMoveDirection
 var _bulletID = 0
 
@@ -65,7 +66,7 @@ func Controller(delta):
 		velocity = _moveDirection * MOVE_SPEED
 	
 	Animate(delta)	
-	move_and_slide()
+	global_position += velocity * delta
 	
 	
 func Animate(delta):
