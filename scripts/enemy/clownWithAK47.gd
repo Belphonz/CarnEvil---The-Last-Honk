@@ -10,7 +10,7 @@ var firingTime:float=2.5
 @export 
 var cooldownTime:float = 4.0
 @export
-var _moveSpeed:float = 120
+var MOVE_SPEED:float = 120
 @export
 var fireCone:float = 35 
 @export
@@ -44,8 +44,8 @@ var animTimer:float = 0
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	super._process(delta)
-	if HP <= 0:
-		onDeath()
+	if _health <= 0:
+		OnDeath()
 	
 	
 	
@@ -53,10 +53,10 @@ func _process(delta):
 
 
 func start(_Player, _maxHealth):
-	super.start(_Player,_maxHealth)
+	super.Start(_Player,_maxHealth)
 	var animation = get_child(0) as AnimatedSprite2D
 	animation.play("Idle",0,false)
-	moveSpeed=_moveSpeed
+	_moveSpeed = MOVE_SPEED
 	fireCone *= PI/180
 	fireChange = 1/fireChangeRate * PI
 	
@@ -65,7 +65,7 @@ func attack(delta):	#Function called every frame
 	var aimAudio = get_child(2) as AudioStreamPlayer2D
 	var shootAudio = get_child(3) as AudioStreamPlayer2D
 	var animation = get_child(0) as AnimatedSprite2D
-	var distFromPlayer:float=(Player.get_global_position().distance_to(get_global_position()))
+	var distFromPlayer:float=(_player.get_global_position().distance_to(get_global_position()))
 	
 	if(!weaponActive):	#If weapon is cooling down, handle cooldown timer, done before checking range as weapon will cooldown when 
 		
@@ -94,7 +94,7 @@ func attack(delta):	#Function called every frame
 		animation.play("Aim",0,false)
 		await aimAudio.finished
 		
-		playerPos = playerDirection
+		playerPos = _playerDirection
 		takeAim = false
 		shootAudio.play()
 			
@@ -159,11 +159,11 @@ func bounce():
 
 func move(delta):
 	var sprite = get_child(0) as Node2D
-	var distFromPlayer:float=(Player.get_global_position().distance_to(get_global_position()))
-	var facingDirection = ((Player.global_position - global_position).normalized())
+	var distFromPlayer:float=(_player.get_global_position().distance_to(get_global_position()))
+	var facingDirection = ((_player.global_position - global_position).normalized())
 	if (sprite as AnimatedSprite2D).animation == "Idle":
 		(sprite as AnimatedSprite2D).frame = EnemySpin(facingDirection) 
-		if EnemySpin(facingDirection) in leftDirection:
+		if EnemySpin(facingDirection) in _leftDirection:
 			(sprite as AnimatedSprite2D).flip_h = true
 		else:
 			(sprite as AnimatedSprite2D).flip_h = false
@@ -173,17 +173,12 @@ func move(delta):
 		if(abs(distFromPlayer-firingRange)<rangeRange):	##Enemy is at optimal range, don't move
 			sprite.rotation = 0
 			return
-		velocity=playerDirection * moveSpeed * direction
+		velocity = _playerDirection * _moveSpeed * direction
 		move_and_slide()
 		bounce()
 	if weaponActive == true:
 		sprite.rotation = 0
 		
-func onDeath():
-	var Blood : Node2D = BloodSplat.instantiate()
-	Blood.global_position = global_position
-	get_parent().get_parent().get_node("BloodsplatterNode").add_child(Blood)
-	queue_free()
 
 
 
@@ -192,6 +187,6 @@ func _on_area_2d_area_entered(area):
 	if "PlBullet" in area.owner.name:
 		var Bullet:Node2D=area.get_parent()
 		Bullet.death()
-		HP -= Bullet.damage
+		_health -= Bullet.damage
 		
 

@@ -1,7 +1,7 @@
 extends "res://scripts/enemy/BaseEnemy.gd"
 
 @export
-var _moveSpeed:float=100
+var MOVE_SPEED :float=100
 
 @export var BOMB_DAMAGE:float = 3
 @export var PHYSICAL_DAMAGE:float = 3
@@ -28,8 +28,8 @@ var attacking : bool = false
 var rng=RandomNumberGenerator.new()
 
 func start(_Player, _maxHealth):
-	super.start(_Player,_maxHealth)
-	moveSpeed=_moveSpeed
+	super.Start(_Player,_maxHealth)
+	_moveSpeed= MOVE_SPEED
 	grenade=preload("res://elements/bullets/grenade.tscn")
 	maxAngleChange*=PI / 180	#Convert angle to radians
 	
@@ -38,11 +38,10 @@ func start(_Player, _maxHealth):
 	
 func _process(delta):
 	super._process(delta)
-	print(HP)
 	if attacking:
 		attackanim += delta
-	if HP <= 0:
-		onDeath()
+	if _health <= 0:
+		OnDeath()
 	
 	
 func move(delta):
@@ -55,11 +54,11 @@ func move(delta):
 		
 		moveDirection=Vector2(cosAngle*moveDirection.x-sinAngle*moveDirection.y,sinAngle*moveDirection.x+cosAngle*moveDirection.y)	#Rotate move direction
 	
-	velocity=moveDirection*moveSpeed
+	velocity = moveDirection * _moveSpeed
 	var animation = get_child(0) as AnimatedSprite2D
 	if(attacking and attackanim > 0.2):
 		animation.frame = EnemySpin(moveDirection) 
-		if EnemySpin(moveDirection) in leftDirection:
+		if EnemySpin(moveDirection) in _leftDirection:
 			animation .flip_h = true
 		else:
 			animation.flip_h = false
@@ -68,7 +67,7 @@ func move(delta):
 		attackanim = 0
 	bounce()
 	move_and_slide()
-	super.move(delta)
+	super.Move(delta)
 	
 func attack(delta):
 	var animation = get_child(0) as AnimatedSprite2D
@@ -102,14 +101,9 @@ func bounce():
 		BOUNCEY = BOUNCEY * -1
 		sprite.move_local_y(BOUNCEY, false)
 
-func onDeath():
-	var Blood : Node2D = BloodSplat.instantiate()
-	Blood.global_position = global_position
-	get_parent().get_parent().get_node("BloodsplatterNode").add_child(Blood)
-	queue_free()
 
 func _on_enemy_collider_area_entered(area):
 	if "PlBullet" in area.owner.name:
-		HP -= 1
+		_health -= 1
 		var Bullet:Node2D=area.get_parent()
 		Bullet.death()

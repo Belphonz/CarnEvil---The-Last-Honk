@@ -1,7 +1,9 @@
 extends "res://scripts/Enemy/BaseEnemy.gd"
 
 @export
-var _moveSpeed:float=160
+var MOVE_SPEED:float=160
+@export
+var MAX_HEALTH:float=1
 @export
 var backToSideSpeedMult:float=0.25
 @export
@@ -28,9 +30,9 @@ var tamerAlive:bool=true
 func setTamer(Tamer:Node2D):
 	LionTamer=Tamer
 
-func start(_Player, _maxHealth):
-	super.start(_Player,_maxHealth)
-	moveSpeed=_moveSpeed
+func start(player):
+	super.Start(player,MAX_HEALTH)
+	_moveSpeed = MOVE_SPEED
 	
 func freeLion():
 	LionTamer=null
@@ -38,53 +40,53 @@ func freeLion():
 
 func _process(delta):
 	super._process(delta)
-	if HP <= 0:
+	if _health <= 0:
 		onDeath()
 	
 func move(delta):
 	
 	var sprite = get_child(0) as Node2D
 	var areaToReach:Vector2
-	var finalMoveSpeed:float=moveSpeed
+	var finalMoveSpeed:float = _moveSpeed
 	
-	var facingDirection = ((Player.global_position - global_position).normalized())
+	var facingDirection = ((_player.global_position - global_position).normalized())
 	
 	if(tamerAlive):	#If the tamer is still alive
-		var playerDist:float=Player.get_global_position().distance_to(LionTamer.get_global_position())
+		var playerDist:float=_player.get_global_position().distance_to(LionTamer.get_global_position())
 		if(playerDist>maxDist):	#Lion is too far away to chase player
 			areaToReach=LionTamer.get_global_position()+LionSideOffset
 			finalMoveSpeed *= backToSideSpeedMult;
 			bounce()
-			if EnemySpin(facingDirection) in leftDirection:
+			if EnemySpin(facingDirection) in _leftDirection:
 				(sprite as AnimatedSprite2D).flip_h = true
 			else:
 				(sprite as AnimatedSprite2D).flip_h = false
 			(sprite as AnimatedSprite2D).frame = EnemySpin(facingDirection) 
 			(sprite as AnimatedSprite2D).play("Idle",0,false)
 		elif(playerDist<maxDist && playerDist > minDist):	#Lion can chase player, but cannot reach player
-			areaToReach=get_global_position().direction_to(Player.get_global_position())*minDist + LionTamer.get_global_position()
+			areaToReach=get_global_position().direction_to(_player.get_global_position())*minDist + LionTamer.get_global_position()
 			rotation = 0
-			if EnemySpin(facingDirection) in leftDirection:
+			if EnemySpin(facingDirection) in _leftDirection:
 				(sprite as AnimatedSprite2D).flip_h = true
 			else:
 				(sprite as AnimatedSprite2D).flip_h = false
 			(sprite as AnimatedSprite2D).frame = 1
 			(sprite as AnimatedSprite2D).play("Attack",0,false)
 		else:	#Lion can reach player
-			areaToReach=Player.get_global_position()
+			areaToReach= _player.get_global_position()
 			rotation = 0
 			
 	else:	#Tamer has died
 		rotation = 0
-		areaToReach=Player.get_global_position()
-		if EnemySpin(facingDirection) in leftDirection:
+		areaToReach= _player.get_global_position()
+		if EnemySpin(facingDirection) in _leftDirection:
 			(sprite as AnimatedSprite2D).flip_h = true
 		else:
 			(sprite as AnimatedSprite2D).flip_h = false
 		(sprite as AnimatedSprite2D).frame =  EnemySpin(facingDirection)  
 		(sprite as AnimatedSprite2D).play("Attack",0,false)
 		
-	if(get_global_position().distance_to(Player.get_global_position())):	#If lion should pounce
+	if(get_global_position().distance_to(_player.get_global_position())):	#If lion should pounce
 		finalMoveSpeed *= pounceMult
 		
 	var directionToMove:Vector2 = get_global_position().direction_to(areaToReach)
@@ -114,15 +116,12 @@ func attack(delta):
 	
 func onDeath():
 	if LionTamer:
-		LionTamer.freeTamer()
-	var Blood : Node2D = BloodSplat.instantiate()
-	Blood.global_position = global_position
-	get_parent().get_parent().get_node("BloodsplatterNode").add_child(Blood)
-	queue_free()		
+		LionTamer.FreeTamer()
+	OnDeath()	
 
 
 func _on_enemy_collider_area_entered(area):
 	if "PlBullet" in area.owner.name:
 		var Bullet:Node2D=area.get_parent()
 		Bullet.death()
-		HP -= Bullet.damage
+		_health -= Bullet.damage

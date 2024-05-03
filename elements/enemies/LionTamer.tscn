@@ -46,7 +46,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="BaseEnemy" instance=ExtResource("1_70cm2")]
+[node name="LionTamer" instance=ExtResource("1_70cm2")]
 script = ExtResource("2_wmctx")
 
 [node name="Sprite2D" parent="." index="0"]

@@ -1,10 +1,9 @@
 extends "res://scripts/Enemy/BaseEnemy.gd"
 
-var nailHazard
-var bellBullet
+var nailHazard = preload("res://elements/hazards/nailHazard.tscn")
+var bellBullet = preload("res://elements/bullets/jesterBell.tscn")
 
-@export
-var _moveSpeed:float = 60
+@export var MOVE_SPEED:float = 60
 
 @export var NAIL_DAMAGE:float = 3
 @export var BELL_DAMAGE:float = 3
@@ -35,20 +34,18 @@ var attackTimer:float=0
 
 var rng=RandomNumberGenerator.new()
 
-func start(_Player, _maxHealth):
-	super.start(_Player,_maxHealth)
-	moveSpeed=_moveSpeed
-	nailHazard=preload("res://elements/hazards/nailHazard.tscn")
-	bellBullet=preload("res://elements/bullets/jesterBell.tscn")
+func Start(_Player, _maxHealth):
+	super.Start(_Player,_maxHealth)
+	_moveSpeed = MOVE_SPEED
 
 func _process(delta):
 	super._process(delta)
 	
-	if(HP<=0):
-		onDeath()
+	if(_health<=0):
+		OnDeath()
 
 func attack(delta):
-	super.attack(delta)
+	super.Attack(delta)
 	attackTimer+=delta
 	if(attackTimer>attackSpeed):
 		attackTimer=0
@@ -71,7 +68,7 @@ func attack(delta):
 	
 	
 func move(delta):
-	super.move(delta)
+	super.Move(delta)
 	var sprite = get_child(0) as Node2D
 	
 	var angle:float=zigzagAngle * (-1 if zigLeft else 1)
@@ -79,15 +76,15 @@ func move(delta):
 	var cosAngle:float=cos(angle)
 	var sinAngle:float=sin(angle)
 	
-	var moveDirection=Vector2(cosAngle*playerDirection.x-sinAngle*playerDirection.y,sinAngle*playerDirection.x+cosAngle*playerDirection.y)
+	var moveDirection=Vector2(cosAngle*_playerDirection.x-sinAngle*_playerDirection.y,sinAngle*_playerDirection.x+cosAngle*_playerDirection.y)
 	
-	velocity = moveDirection * moveSpeed
+	velocity = moveDirection * _moveSpeed
 	move_and_slide()
 	
-	var facingDirection = ((Player.global_position - global_position).normalized())
+	var facingDirection = ((_player.global_position - global_position).normalized())
 	if (sprite as AnimatedSprite2D).animation == "Default":
 		(sprite as AnimatedSprite2D).frame = EnemySpin(facingDirection) 
-		if EnemySpin(facingDirection) in leftDirection:
+		if EnemySpin(facingDirection) in _leftDirection:
 			(sprite as AnimatedSprite2D).flip_h = false
 		else:
 			(sprite as AnimatedSprite2D).flip_h = true
@@ -98,11 +95,6 @@ func move(delta):
 		zigLeft=!zigLeft
 		zigzagTimer=0
 	
-func onDeath():
-	var Blood : Node2D = BloodSplat.instantiate()
-	Blood.global_position = global_position
-	get_parent().get_parent().get_node("BloodsplatterNode").add_child(Blood)
-	queue_free()
 	
 
 
@@ -110,4 +102,4 @@ func _on_enemy_collider_area_entered(area):
 	if "PlBullet" in area.owner.name:
 		var Bullet:Node2D=area.get_parent()
 		Bullet.death()
-		HP -= Bullet.damage
+		_health -= Bullet.damage

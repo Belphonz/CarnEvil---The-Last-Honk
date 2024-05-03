@@ -1,7 +1,8 @@
 extends "res://scripts/Enemy/BaseEnemy.gd"
 
-@export
-var _moveSpeed:float = 90
+
+@export var MAX_HEALTH:float = 1
+@export var MOVE_SPEED:float = 90
 var attacking:bool = false
 var stunned:bool = false
 var willAttack:bool = false
@@ -16,23 +17,18 @@ var downtimeVal:float = 5.0
 var attackLimit:float = 2.5
 var stunLimit:float = 1.5
 
-var RmId
+var _enemyID:float
 
 func _process(delta):
 	super._process(delta)
-	if HP <= 0:
-		onDeath()
+	if _health <= 0:
+		OnDeath()
+
 	
-func onDeath():
-	var Blood : Node2D = BloodSplat.instantiate()
-	Blood.global_position = global_position
-	get_parent().get_parent().get_node("BloodsplatterNode").add_child(Blood)
-	queue_free()
-	
-func Start(_Player, _maxHealth, id):
-	super.start(_Player,_maxHealth)
-	moveSpeed=_moveSpeed
-	RmId = id
+func start(player, enemyID):
+	super.Start(player,MAX_HEALTH)
+	_moveSpeed = MOVE_SPEED
+	_enemyID = enemyID
 	
 func attack(delta):
 	var spinColl = get_child(1) as CollisionPolygon2D
@@ -43,14 +39,14 @@ func attack(delta):
 		bodyColl.disabled = false
 		bodyColldelta.disabled = false
 		downtimeTimer+=delta
-		name = "Enemy Ringmaster" + str(RmId) 
+		name = "Enemy Ringmaster" + str(_enemyID) 
 	if downtimeTimer >= downtimeVal && willAttack:
 		attacking = true
 		spinColl.disabled = false
 		bodyColl.disabled = true
 		bodyColldelta.disabled = true
 		attackTimer += delta
-		name = "RingmasterSpin Bouncy" + str(RmId) 
+		name = "RingmasterSpin Bouncy" + str(_enemyID) 
 		if attackTimer > attackLimit:
 			stunned = true
 			stunTimer = 0
@@ -106,31 +102,31 @@ func move(delta):
 	var animation = get_child(0) as AnimatedSprite2D
 	var sprite = get_child(4) as AnimatedSprite2D
 	
-	var distFromPlayer:float=(Player.get_global_position().distance_to(get_global_position()))
+	var distFromPlayer:float=(_player.get_global_position().distance_to(get_global_position()))
 	
 	if distFromPlayer < 100:
 		willAttack = true
 	
 	if stunned == false:
 		if attacking == false:
-			moveSpeed = 60
+			_moveSpeed = 60
 			sprite.visible = true
 			animation.visible = false
-			var facingDirection = ((Player.global_position - global_position).normalized())
+			var facingDirection = ((_player.global_position - global_position).normalized())
 			if sprite.animation == "Idle":
 				sprite.frame = EnemySpin(facingDirection) 
-				if EnemySpin(facingDirection) in leftDirection:
+				if EnemySpin(facingDirection) in _leftDirection:
 					sprite .flip_h = true
 				else:
 					sprite.flip_h = false
 			sprite.play("Idle",0,false)
 			
 		if attacking == true:
-			moveSpeed = 90
+			_moveSpeed = 90
 			animation.play("Spin",1,false)
 			sprite.visible = false
 			animation.visible = true
-		velocity=playerDirection * moveSpeed
+		velocity=_playerDirection * _moveSpeed
 		move_and_slide()
 		bounce()
 		
@@ -146,6 +142,6 @@ func move(delta):
 
 func _on_enemy_collider_area_entered(area):
 	if "PlBullet" in area.owner.name:
-		HP -= 1
+		_health -= 1
 		var Bullet:Node2D=area.get_parent()
 		Bullet.death()

@@ -2,22 +2,16 @@ extends Node
 
 var Player: Node2D
 
-
-var jester
-var cAK47
-var rm
-var lionTamer
-var clown
+var jester = preload("res://elements/enemies/jester.tscn")
+var cAK47 = preload("res://elements/enemies/ClownWithAK47.tscn")
+var rm = preload("res://elements/enemies/ringmaster.tscn")
+var lionTamer = preload("res://elements/enemies/LionTamer.tscn")
+var clown = preload("res://elements/enemies/Clown.tscn")
 
 var EnemyID = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	cAK47 = preload("res://elements/enemies/ClownWithAK47.tscn")
-	rm = preload("res://elements/enemies/ringmaster.tscn")
-	jester=preload("res://elements/enemies/jester.tscn")
-	lionTamer=preload("res://elements/enemies/LionTamer.tscn")
-	clown=preload("res://elements/enemies/Clown.tscn")
 	Player=get_node("../Player")
 
 	#spawnClownAK47(Vector2(100,100))
@@ -54,14 +48,13 @@ func spawnJester(position:Vector2):
 	add_child(enemyInstanceNode)
 	
 func spawnLionTamer(position:Vector2):
-	var enemyInstanceNode=lionTamer.instantiate()
+	var enemyInstanceNode = lionTamer.instantiate()
 	enemyInstanceNode.set_global_position(position)
-	EnemyID+=1	#One for the tamer
-	enemyInstanceNode.Start(Player,1,EnemyID)
-	enemyInstanceNode.name="Enemy Lion Tamer" + str(EnemyID)
-	EnemyID+=1	#One for the lion
+	EnemyID += 1	#One for the tamer
 	add_child(enemyInstanceNode)
-	enemyInstanceNode.addLion(EnemyID)
+	enemyInstanceNode.Start(Player,EnemyID)
+	enemyInstanceNode.name="Enemy Lion Tamer" + str(EnemyID)
+	
 
 func spawnClown(position:Vector2):
 	var enemyInstanceNode=clown.instantiate()
