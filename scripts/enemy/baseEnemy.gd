@@ -12,7 +12,7 @@ var _moveSpeed:float
 var _movementBounceStrength:float
 var _movementBounceAngle:float
 var _movementBounceMaxHeight:float
-var _movementBounceBouncey:float
+var _movementBounceBounceYAxis:float
 
 func Start(player, maxHealth):	 # Constructor
 	_player = player
@@ -55,10 +55,10 @@ func Bounce():
 	if sprite.rotation_degrees >= _movementBounceAngle or sprite.rotation_degrees <= -_movementBounceAngle:
 		_movementBounceStrength = _movementBounceStrength * -1
 		rotate(_movementBounceStrength * (PI/180))
-	sprite.move_local_y(_movementBounceBouncey, false)
+	sprite.move_local_y(_movementBounceBounceYAxis, false)
 	if sprite.position.y >= _movementBounceMaxHeight or sprite.position.y <= -_movementBounceMaxHeight:
-		_movementBounceBouncey = _movementBounceBouncey * -1
-		sprite.move_local_y(_movementBounceBouncey, false)	
+		_movementBounceBounceYAxis = _movementBounceBounceYAxis * -1
+		sprite.move_local_y(_movementBounceBounceYAxis, false)	
 
 
 

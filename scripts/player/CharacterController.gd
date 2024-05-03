@@ -1,75 +1,84 @@
 extends CharacterBody2D
 
-var HP:int = 1
-@export var MAX_HP:int = 6
-@export var MOVEMENT_SPEED:float = 300.0
+@export var MAX_HEALTH:float = 6
+@export var MOVE_SPEED:float = 300.0
 @export var BULLET_BOUNCE_COUNT:int = 3
 @export var BULLET_DAMAGE:float = 3
 @export var BULLET_SPEED:float = 400.0
 @export var FIRE_RATE:float = 0.4
-var CURRENT_FIRE_RATE = 0.0
-var move_direction
-var lastsaved_move_direction
-var bulletID = 0
-@export var BOUNCEPOWER = 1.5
-@export var DEGREES = 15
-@export var BOUNCEHEIGHT = 1.5
-@export var BOUNCEY = 0.4
-@export var iFrameTime:float=2.0
-var scoretimer = 0
-@export var score : float= 0
-var alive = true
+
+var _currentFireRate = 0.0
+var _moveDirection
+var _lastSavedMoveDirection
+var _bulletID = 0
+
+@export var MOVEMENTBOUNCE_STRENGTH = 1.5
+@export var MOVEMENTBOUNCE_ANGLE = 15
+@export var MOVEMENTBOUNCE_MAX_HEIGHT = 1.5
+@export var MOVEMENTBOUNCE_BOUNCE_Y_AXIS = 0.4
+
+@export var IFRAME_DURATION:float = 2.0
+var _iFramesActive:bool = false
+var _iFramesTimer:float = 0
+
+var _scoreBasedOnTime = 0
+var _score : float= 0
+var _health:float
+var _alive = true
 var LastHitBy : String
 
 
-@export var DashSpeedmultiplier : float = 4
-@export var Dashduration : float = 0.3
-var currentDashduration : float = 0
-var isDashing : bool
+@export var DASH_SPEED_MULTIPLIER : float = 4
+@export var DASH_DURATION : float = 0.3
+var _currentDashduration : float = 0
+var _isDashing : bool
 
-var usingController:bool=false
-var iFramesActive:bool=false
-var iFramesTimer:float=0
-
+var _usingController:bool = false
 var isLeft : bool = false
-var rotationFrame : int
+var _rotationFrame : int
 
 var HealthBar:Node2D
 
 
 func _ready():
 	Highscore.Player = self
-	HP=MAX_HP
+	_health = MAX_HEALTH
 	HealthBar = get_node("HealthBar")
 
+func Dash(delta):
+	if Input.is_action_just_pressed("dash") and not _isDashing:
+		_isDashing = true
+	if _isDashing:
+		_currentDashduration += delta
+	if _currentDashduration > DASH_DURATION: 
+		_currentDashduration = 0
+		_isDashing = false
+		
 func Controller(delta):
-	if not isDashing:
-		move_direction = Input.get_vector("move_left", "move_right", "move_up", "move_down").normalized()
-		lastsaved_move_direction = move_direction
-	
-	if Input.is_action_just_pressed("dash") and not isDashing:
-		isDashing = true
-	if isDashing:
-		velocity = lastsaved_move_direction * MOVEMENT_SPEED * DashSpeedmultiplier
+	if not _isDashing:
+		_moveDirection = Input.get_vector("move_left", "move_right", "move_up", "move_down").normalized()
+		_lastSavedMoveDirection = _moveDirection
+	Dash(delta)
+	if _isDashing:
+		velocity = _lastSavedMoveDirection * MOVE_SPEED * DASH_SPEED_MULTIPLIER
 	else:
-		velocity = move_direction * MOVEMENT_SPEED
+		velocity = _moveDirection * MOVE_SPEED
 	
-	if isDashing:
-		currentDashduration += delta
-	if currentDashduration > Dashduration: 
-		currentDashduration = 0
-		isDashing = false
-	var leftDirection = [0,1,7]
+	Animate(delta)	
+	move_and_slide()
 	
+	
+func Animate(delta):
+	const leftDirection = [0,1,7]
 	var animation = get_child(0) as AnimatedSprite2D
-	animation.frame = rotationFrame
+	animation.frame = _rotationFrame
 	
-	if move_direction:
+	if _moveDirection:
 		Bounce(delta)
-		rotationFrame = roundi(((move_direction.angle() + PI) * 4)/ PI);
-		if rotationFrame > 7:
-			rotationFrame -= 8
-		if rotationFrame in leftDirection:
+		_rotationFrame = roundi(((_moveDirection.angle() + PI) * 4)/ PI);
+		if _rotationFrame > 7:
+			_rotationFrame -= 8
+		if _rotationFrame in leftDirection:
 			isLeft = true
 		else:
 			isLeft = false
@@ -77,19 +86,18 @@ func Controller(delta):
 		animation.rotation = 0
 	animation.flip_h = isLeft
 	animation.play("Default",0,false)
-	move_and_slide()
+	
 	
 func Shoot(delta):
 	var shootPoint = get_child(1) as Node2D
-	var audioShoot = get_child(2) as AudioStreamPlayer2D
 	var audioNoShoot = get_child(3) as AudioStreamPlayer2D
 	
-	CURRENT_FIRE_RATE += delta
+	_currentFireRate += delta
 	
 	var facingdirection:Vector2	#Get direction to fire
 	if(Input.get_connected_joypads().size() > 0):	#Using controller
 		facingdirection=Vector2(Input.get_joy_axis(0,JOY_AXIS_RIGHT_X),Input.get_joy_axis(0,JOY_AXIS_RIGHT_Y))
-		if(facingdirection.dot(facingdirection)<0.1):	#If aiming no-where
+		if(facingdirection.dot(facingdirection) < 0.1):	#If aiming no-where
 			facingdirection=Vector2(1,0)
 		else:
 			facingdirection=facingdirection.normalized()	#Normalize facing direction so it's not affecting bullet velocity	
@@ -97,42 +105,44 @@ func Shoot(delta):
 		facingdirection = (get_global_mouse_position() - global_position).normalized()
 		
 	shootPoint.rotation = facingdirection.angle()
-	if Input.is_action_just_pressed("shoot") and CURRENT_FIRE_RATE < FIRE_RATE:
+	if Input.is_action_just_pressed("shoot") and _currentFireRate < FIRE_RATE:
 		audioNoShoot.play()
-	if Input.is_action_pressed("shoot") and CURRENT_FIRE_RATE > FIRE_RATE:
-		audioShoot.play()
-		var bulletInstance:CharacterBody2D = preload("res://elements/bullets/bullet.tscn").instantiate()
-		bulletInstance.speed = BULLET_SPEED
-		bulletInstance.direction = facingdirection
-		bulletInstance.isPlayerBullet = true
-		bulletInstance.damage = BULLET_DAMAGE
-			
-		bulletInstance.maxBounceCount = BULLET_BOUNCE_COUNT
+	if Input.is_action_pressed("shoot") and _currentFireRate > FIRE_RATE:
+		Create_Bullet(delta,facingdirection,shootPoint)
 		
-		bulletID += 1
-		bulletInstance.name = "PlBullet " + str(bulletID)
-		
-		bulletInstance.global_position = shootPoint.global_position + (facingdirection * 30)
-		get_parent().add_child(bulletInstance)
-		CURRENT_FIRE_RATE = 0
+func Create_Bullet(delta,facingdirection,shootPoint):
+	var audioShoot = get_child(2) as AudioStreamPlayer2D
+	audioShoot.play()
+	var bulletInstance:CharacterBody2D = preload("res://elements/Bullets/Bullet.tscn").instantiate()
+	bulletInstance.speed = BULLET_SPEED
+	bulletInstance.direction = facingdirection
+	bulletInstance.isPlayerBullet = true
+	bulletInstance.damage = BULLET_DAMAGE
+	bulletInstance.maxBounceCount = BULLET_BOUNCE_COUNT
+	
+	_bulletID += 1
+	bulletInstance.name = "PlBullet " + str(_bulletID)
+	bulletInstance.global_position = shootPoint.global_position + (facingdirection * 30)
+	get_parent().add_child(bulletInstance)
+	_currentFireRate = 0
 	
 	
 func Bounce(delta): 
 	var sprite = get_child(0) as Node2D
 	# rotates only sprite and flips if over the limit
-	sprite.rotate(BOUNCEPOWER * (PI/180))
-	if sprite.rotation_degrees >= DEGREES or sprite.rotation_degrees <= -DEGREES:
-		BOUNCEPOWER = BOUNCEPOWER * -1
-		rotate(BOUNCEPOWER * (PI/180))
-	sprite.move_local_y(BOUNCEY, false)
-	if sprite.position.y >= BOUNCEHEIGHT or sprite.position.y <= -BOUNCEHEIGHT:
-		BOUNCEY = BOUNCEY * -1
-		sprite.move_local_y(BOUNCEY, false)
+	sprite.rotate(MOVEMENTBOUNCE_STRENGTH * (PI/180))
+	if sprite.rotation_degrees >= MOVEMENTBOUNCE_ANGLE or sprite.rotation_degrees <= -MOVEMENTBOUNCE_ANGLE:
+		MOVEMENTBOUNCE_STRENGTH = MOVEMENTBOUNCE_STRENGTH * -1
+		rotate(MOVEMENTBOUNCE_STRENGTH * (PI/180))
+	sprite.move_local_y(MOVEMENTBOUNCE_BOUNCE_Y_AXIS, false)
+	if sprite.position.y >= MOVEMENTBOUNCE_MAX_HEIGHT or sprite.position.y <= -MOVEMENTBOUNCE_MAX_HEIGHT:
+		MOVEMENTBOUNCE_BOUNCE_Y_AXIS = MOVEMENTBOUNCE_BOUNCE_Y_AXIS * -1
+		sprite.move_local_y(MOVEMENTBOUNCE_BOUNCE_Y_AXIS, false)
 	
 func Death():
-	score = floor(scoretimer) * 10
-	Highscore.runscore = score
-	alive = false
+	_score = floor(_scoreBasedOnTime) * 10
+	Highscore.runscore = _score
+	_alive = false
 	ProcessDeath()
 	var DeathScreen : Node2D = preload("res://scenes/DeathScreen.tscn").instantiate()
 	(DeathScreen.get_node("Deathmessasage") as Label).text = LastHitBy
@@ -148,44 +158,35 @@ func ProcessDeath():
 		LastHitBy = "THE AK CLOWN's BELLYFLOP!"
 	elif "Ringmaster" in LastHitBy :
 		LastHitBy = "THE RINGMASTER's BELLYFLOP!"
-
-func Scorecounter(delta):
-	if alive:
-		scoretimer += delta
-	else:
-		var highscore : Label = get_node("../HighscoreManager").get_child(0)
 	
 func _physics_process(delta):
 	Controller(delta)
-
-	if(iFramesActive):
-		iFramesTimer+=delta
-		if(iFramesTimer>iFrameTime):
-			iFramesTimer=0
-			iFramesActive=false	
-	
-	HealthBar.setHealth(HP,MAX_HP)
-	
-	
+	HealthBar.setHealth(_health,MAX_HEALTH)
 	Shoot(delta)
-	Scorecounter(delta)
-	if HP <= 0:
+	_scoreBasedOnTime += delta
+	
+	if(_iFramesActive):
+		_iFramesTimer+=delta
+		if(_iFramesTimer > IFRAME_DURATION):
+			_iFramesTimer = 0
+			_iFramesActive = false	
+	if _health <= 0:
 		Death()
 	
 
 
 func _on_player_collider_area_entered(area):
-	if "Bullet" in area.owner.name && !iFramesActive:
+	if "Bullet" in area.owner.name && !_iFramesActive:
 		LastHitBy = area.owner.name
-		iFramesActive=true
+		_iFramesActive=true
 		var Bullet:Node2D=area.get_parent()
 		Bullet.death()
-		HP -= Bullet.damage
-	if "Enemy" in area.owner.name && !iFramesActive:
+		_health -= Bullet.damage
+	if "Enemy" in area.owner.name && !_iFramesActive:
 		LastHitBy = area.owner.name
-		iFramesActive=true
+		_iFramesActive=true
 		var Enemy:Node2D=area.get_parent()
-		HP -= Enemy.PHYSICAL_DAMAGE
+		_health -= Enemy.PHYSICAL_DAMAGE
 		
 		
 	

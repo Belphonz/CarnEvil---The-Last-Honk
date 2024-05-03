@@ -1,8 +1,8 @@
 [gd_scene load_steps=7 format=3 uid="uid://5r5oq3pr8bb7"]
 
-[ext_resource type="Script" path="res://scripts/Bullets/bullet.gd" id="1_smo80"]
-[ext_resource type="Texture2D" uid="uid://82cnplq02336" path="res://assets/gfx/Player/Confetti_Bullet_Full.png" id="2_f8hqk"]
-[ext_resource type="Texture2D" uid="uid://cu4a2xr2p76hr" path="res://assets/gfx/Enemy/Clown47/ClownBullet.png" id="3_0g5tm"]
+[ext_resource type="Script" path="res://scripts/Bullets/Bullet.gd" id="1_wenb8"]
+[ext_resource type="Texture2D" uid="uid://82cnplq02336" path="res://assets/gfx/Player/Confetti_Bullet_Full.png" id="2_247of"]
+[ext_resource type="Texture2D" uid="uid://cu4a2xr2p76hr" path="res://assets/gfx/Enemy/Clown47/ClownBullet.png" id="3_yuss7"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xq4ye"]
 
@@ -15,15 +15,15 @@ height = 40.2567
 [node name="Bullet" type="CharacterBody2D"]
 position = Vector2(205, 180)
 scale = Vector2(0.1, -0.1)
-script = ExtResource("1_smo80")
+script = ExtResource("1_wenb8")
 
 [node name="Player" type="Sprite2D" parent="."]
 scale = Vector2(0.986982, 0.986982)
-texture = ExtResource("2_f8hqk")
+texture = ExtResource("2_247of")
 
 [node name="AK47" type="Sprite2D" parent="."]
 scale = Vector2(0.120156, 0.120156)
-texture = ExtResource("3_0g5tm")
+texture = ExtResource("3_yuss7")
 
 [node name="PlayerColl" type="CollisionShape2D" parent="."]
 scale = Vector2(7.28695, 7.28695)

@@ -7,7 +7,7 @@ extends "res://scripts/Enemy/BaseEnemy.gd"
 @export var MOVEMENTBOUNCE_STRENGTH = 0.5
 @export var MOVEMENTBOUNCE_ANGLE = 10
 @export var MOVEMENTBOUNCE_MAX_HEIGHT = 1.5
-@export var MOVEMENTBOUNCE_BOUNCEY = 0.2
+@export var MOVEMENTBOUNCE_BOUNCE_Y_AXIS = 0.2
 
 var _lionAlive:bool = true
 var Lion:Node2D = null
@@ -18,7 +18,7 @@ func Start(player,enemyID):
 	_movementBounceStrength = MOVEMENTBOUNCE_STRENGTH
 	_movementBounceAngle = MOVEMENTBOUNCE_ANGLE
 	_movementBounceMaxHeight = MOVEMENTBOUNCE_MAX_HEIGHT
-	_movementBounceBouncey = MOVEMENTBOUNCE_BOUNCEY
+	_movementBounceBounceYAxis = MOVEMENTBOUNCE_BOUNCE_Y_AXIS
 	AddLion(enemyID)
 
 
@@ -44,7 +44,7 @@ func Move(delta):
 	var sprite = get_child(0) as Node2D
 	velocity += _moveSpeed * _playerDirection
 	Animate()
-	(sprite as AnimatedSprite2D).play("Idle",0,false)
+
 	if(!_lionAlive):
 		return
 	move_and_slide()
@@ -64,6 +64,7 @@ func Animate():
 			(sprite as AnimatedSprite2D).flip_h = true
 		else:
 			(sprite as AnimatedSprite2D).flip_h = false
+	(sprite as AnimatedSprite2D).play("Idle",0,false)
 	
 func Attack(delta): # Lion Tamer doesn't attack
 	pass

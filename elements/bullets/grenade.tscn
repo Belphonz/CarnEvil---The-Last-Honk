@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://bbp7l4j83yvaf"]
 
 [ext_resource type="Texture2D" uid="uid://b03qic2hjhak8" path="res://assets/gfx/Enemy/Clown/Bomb/BombFaceKaboom.png" id="1_e7kvm"]
-[ext_resource type="Script" path="res://scripts/Bullets/grenade.gd" id="1_m0s6d"]
+[ext_resource type="Script" path="res://scripts/Bullets/Grenade.gd" id="1_m0s6d"]
 [ext_resource type="Texture2D" path="res://assets/gfx/explosionTEMP.png" id="3_a53gt"]
 [ext_resource type="AudioStream" uid="uid://pqmtoo7c0rkv" path="res://assets/sfx/Enemy/Clown/Bomb_Explosion.wav" id="4_yygw7"]
 
