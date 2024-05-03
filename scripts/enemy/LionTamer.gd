@@ -1,4 +1,4 @@
-extends "res://scripts/enemy/BaseEnemy.gd"
+extends "res://scripts/Enemy/BaseEnemy.gd"
 
 @export
 var _moveSpeed:float=40
@@ -73,6 +73,7 @@ func bounce():
 	if sprite.position.y >= BOUNCEHEIGHT or sprite.position.y <= -BOUNCEHEIGHT:
 		BOUNCEY = BOUNCEY * -1
 		sprite.move_local_y(BOUNCEY, false)
+
 func onDeath():
 	if Lion: 
 		Lion.freeLion()
