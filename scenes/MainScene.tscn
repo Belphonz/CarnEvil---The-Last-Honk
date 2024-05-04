@@ -1,11 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://bolxcixlhgykv"]
+[gd_scene load_steps=8 format=3 uid="uid://bolxcixlhgykv"]
 
 [ext_resource type="PackedScene" uid="uid://shkw5ab00lsl" path="res://scenes/Stage.tscn" id="1_eong5"]
 [ext_resource type="Script" path="res://scripts/UI/MainScene.gd" id="1_we28v"]
 [ext_resource type="PackedScene" uid="uid://dqwi7ki8bncgk" path="res://elements/Player/Player.tscn" id="2_rnxx0"]
-[ext_resource type="Texture2D" uid="uid://bfxde6v8yq7tb" path="res://assets/gfx/Menu/Backgrounds/wall.PNG" id="3_2mtfi"]
 [ext_resource type="PackedScene" uid="uid://b1ma2y6clm8hm" path="res://elements/Enemies/EnemyManager.tscn" id="3_i7k7l"]
-[ext_resource type="Texture2D" uid="uid://8jt27f5n5uwy" path="res://assets/gfx/Menu/Backgrounds/Floor.PNG" id="4_2eamr"]
 [ext_resource type="AudioStream" uid="uid://ck86rgpyvyfgx" path="res://assets/sfx/Themes/Game_Theme.wav" id="4_kkpkc"]
 [ext_resource type="PackedScene" uid="uid://btjbvawyjpsqa" path="res://scenes/Highscore.tscn" id="5_pfcbs"]
 [ext_resource type="PackedScene" uid="uid://drbqja0xtoviq" path="res://elements/Enemies/WaveManager.tscn" id="7_yq4m0"]
@@ -17,25 +15,17 @@ script = ExtResource("1_we28v")
 stream = ExtResource("4_kkpkc")
 autoplay = true
 
-[node name="Wall" type="Sprite2D" parent="."]
-position = Vector2(-25.75, -170)
-scale = Vector2(0.26825, 0.3255)
-texture = ExtResource("3_2mtfi")
+[node name="Stage" parent="." instance=ExtResource("1_eong5")]
+position = Vector2(0, 0)
+scale = Vector2(1.8, 1.8)
 
-[node name="Floor" type="Sprite2D" parent="."]
-scale = Vector2(0.33, 0.33)
-texture = ExtResource("4_2eamr")
-
-[node name="BloodsplatterNode" type="Node2D" parent="."]
+[node name="FloorDebris" type="Node2D" parent="."]
 
 [node name="BulletObject" type="Node2D" parent="."]
 
 [node name="SpikeNode" type="Node2D" parent="."]
 
 [node name="EnemyManager" parent="." instance=ExtResource("3_i7k7l")]
-
-[node name="Stage" parent="." instance=ExtResource("1_eong5")]
-scale = Vector2(1.8, 1.8)
 
 [node name="HighscoreManager" parent="." instance=ExtResource("5_pfcbs")]
 
