@@ -18,6 +18,7 @@ var changeDirectionTime:float=4
 var maxAngleChange:float=15.0
 
 var grenade
+var velocity
 
 var attackTimer:float=0
 
@@ -66,7 +67,7 @@ func move(delta):
 		attacking = false
 		attackanim = 0
 	bounce()
-	move_and_slide()
+	global_position += velocity * delta
 	super.Move(delta)
 	
 func attack(delta):

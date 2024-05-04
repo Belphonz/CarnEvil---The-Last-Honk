@@ -1,4 +1,4 @@
-extends CharacterBody2D
+extends Node2D
 
 const _leftDirection = [0,1,7]
 
@@ -45,7 +45,7 @@ func GetHurt(damage:int): # Virtual Damage Function
 func OnDeath(): # Virtual Death Function
 	var BloodSplat : Node2D = _bloodSplat.instantiate()
 	BloodSplat.global_position = global_position
-	get_parent().get_parent().get_node("BloodsplatterNode").add_child(BloodSplat)
+	get_parent().get_parent().get_node("FloorDebris").add_child(BloodSplat)
 	queue_free()
 	
 func Bounce():

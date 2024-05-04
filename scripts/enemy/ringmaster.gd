@@ -6,6 +6,7 @@ extends "res://scripts/Enemy/BaseEnemy.gd"
 var attacking:bool = false
 var stunned:bool = false
 var willAttack:bool = false
+var velocity
 
 @export var PHYSICAL_DAMAGE:float = 3
 
@@ -127,7 +128,7 @@ func move(delta):
 			sprite.visible = false
 			animation.visible = true
 		velocity=_playerDirection * _moveSpeed
-		move_and_slide()
+		global_position += velocity * delta
 		bounce()
 		
 	if stunned == true:

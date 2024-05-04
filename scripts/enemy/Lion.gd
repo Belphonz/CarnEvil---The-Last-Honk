@@ -13,6 +13,7 @@ var pounceMult:float=1.5
 
 @export
 var pounceDist:float = 60
+var velocity
 
 @export 
 var minDist:float = 120
@@ -92,7 +93,7 @@ func move(delta):
 	var directionToMove:Vector2 = get_global_position().direction_to(areaToReach)
 	velocity=directionToMove * finalMoveSpeed
 	
-	move_and_slide()
+	global_position += velocity * delta
 	
 @export var BOUNCEPOWER = 0.5
 @export var DEGREES = 10

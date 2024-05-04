@@ -4,6 +4,7 @@ var nailHazard = preload("res://elements/hazards/nailHazard.tscn")
 var bellBullet = preload("res://elements/bullets/jesterBell.tscn")
 
 @export var MOVE_SPEED:float = 60
+var velocity
 
 @export var NAIL_DAMAGE:float = 3
 @export var BELL_DAMAGE:float = 3
@@ -79,7 +80,7 @@ func move(delta):
 	var moveDirection=Vector2(cosAngle*_playerDirection.x-sinAngle*_playerDirection.y,sinAngle*_playerDirection.x+cosAngle*_playerDirection.y)
 	
 	velocity = moveDirection * _moveSpeed
-	move_and_slide()
+	global_position += velocity * delta
 	
 	var facingDirection = ((_player.global_position - global_position).normalized())
 	if (sprite as AnimatedSprite2D).animation == "Default":

@@ -5,7 +5,7 @@ var Player: Node2D
 var jester = preload("res://elements/enemies/jester.tscn")
 var cAK47 = preload("res://elements/enemies/ClownWithAK47.tscn")
 var rm = preload("res://elements/enemies/ringmaster.tscn")
-var lionTamer = preload("res://elements/enemies/LionTamer.tscn")
+var lionTamer = preload("res://elements/Enemies/LionTamer.tscn")
 var clown = preload("res://elements/enemies/Clown.tscn")
 
 var EnemyID = 0
@@ -17,7 +17,7 @@ func _ready():
 	#spawnClownAK47(Vector2(100,100))
 	#spawnRingmaster(Vector2(100,100))
 	#spawnJester(Vector2(100,100))
-	#spawnLionTamer(Vector2(100,100))
+	spawnLionTamer(Vector2(100,100))
 	#spawnClown(Vector2(100,100))
 
 func getEnemyCount():

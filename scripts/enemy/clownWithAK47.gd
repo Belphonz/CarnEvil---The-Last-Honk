@@ -15,6 +15,7 @@ var MOVE_SPEED:float = 120
 var fireCone:float = 35 
 @export
 var fireChangeRate:float = 16.0
+var velocity
 
 @export
 var firingRange:float=120.0
@@ -174,7 +175,7 @@ func move(delta):
 			sprite.rotation = 0
 			return
 		velocity = _playerDirection * _moveSpeed * direction
-		move_and_slide()
+		global_position += velocity * delta
 		bounce()
 	if weaponActive == true:
 		sprite.rotation = 0

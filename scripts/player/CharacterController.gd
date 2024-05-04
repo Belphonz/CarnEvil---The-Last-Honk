@@ -19,7 +19,7 @@ var _bulletID = 0
 @export var MOVEMENTBOUNCE_MAX_HEIGHT = 1.5
 @export var MOVEMENTBOUNCE_BOUNCE_Y_AXIS = 0.4
 
-@export var IFRAME_DURATION:float = 2.0
+@export var IFRAME_DURATION:float = 0.25
 var _iFramesActive:bool = false
 var _iFramesTimer:float = 0
 
@@ -46,7 +46,21 @@ var HealthBar:Node2D
 @export var STAGE_BOUNCE_STRENGTH = 15
 @export var STAGE_BOUNCE_DURATION = 0.25
 @export var STAGE_BOUNCE_FRICTION = 0.7
-@export var STAGE_BOUNCES_UNTIL_DEATH = 3
+@export var STAGE_BOUNCES_UNTIL_DEATH = 2
+
+@export var ENEMY_DO_PHSYICAL_KNOCKBACK : bool = true
+@export var PHYSICAL_KNOCKBACK_STRENGTH = 1000
+@export var PHYSICAL_KNOCKBACK_DURATION = IFRAME_DURATION / 2
+@export var PHSYICAL_KNOCKBACK_FRICTION = 0.7
+
+@export var BULLET_DO_KNOCKBACK : bool = true
+@export var BULLET_KNOCKBACK_STRENGTH = 4
+@export var BULLET_KNOCKBACK_DURATION = IFRAME_DURATION / 2
+@export var BULLET_KNOCKBACK_FRICTION = 0.7
+
+var _inKnockBack : bool = false
+var _enemyKnockbackTimer : float
+var _currentKnockBackFriction
 
 
 func _ready():
@@ -70,13 +84,20 @@ func Controller(delta):
 	Dash(delta)
 	if _isDashing and not _bouncingBackIntoStage:
 		velocity = _lastSavedMoveDirection * MOVE_SPEED * DASH_SPEED_MULTIPLIER
-	elif not _bouncingBackIntoStage:
+	elif not _bouncingBackIntoStage and not _inKnockBack:
 		velocity = _moveDirection * MOVE_SPEED
 	if _bouncingBackIntoStage:
 		_bouncingBackIntoStageTimer -= delta
 		velocity *= STAGE_BOUNCE_FRICTION
 		if _bouncingBackIntoStageTimer <= 0:
 			_bouncingBackIntoStage = false
+			
+	if _inKnockBack:
+		_enemyKnockbackTimer -= delta
+		velocity *= _currentKnockBackFriction
+		if _enemyKnockbackTimer <= 0:
+			_inKnockBack = false
+			
 	VelocityDeath()		
 	Animate(delta)	
 	global_position += velocity * delta
@@ -84,14 +105,17 @@ func Controller(delta):
 func VelocityDeath():
 	var VelocityDeathSpeedX = _lastSavedMoveDirection.abs().x * MOVE_SPEED * DASH_SPEED_MULTIPLIER * STAGE_BOUNCE_STRENGTH * STAGE_BOUNCES_UNTIL_DEATH
 	var VelocityDeathSpeedY = _lastSavedMoveDirection.abs().y * MOVE_SPEED * DASH_SPEED_MULTIPLIER * STAGE_BOUNCE_STRENGTH * STAGE_BOUNCES_UNTIL_DEATH
-	if (velocity.x != 0 or velocity.y != 0):
+	if (velocity.x != 0 or velocity.y != 0) && _bouncingBackIntoStage:
 		if (velocity.abs().x > VelocityDeathSpeedX) and velocity.y == 0:
 			_health = 0
+			LastHitBy = "HighSpeed"
 		if (velocity.abs().y > VelocityDeathSpeedY) and velocity.x == 0:
 			_health = 0
+			LastHitBy = "HighSpeed"
 		if (velocity.abs().x > VelocityDeathSpeedX) and velocity.y != 0:
 			if (velocity.abs().y > VelocityDeathSpeedY) and velocity.x != 0:
 				_health = 0
+				LastHitBy = "HighSpeed"
 				
 func Animate(delta):
 	const leftDirection = [0,1,7]
@@ -183,6 +207,8 @@ func ProcessDeath():
 		LastHitBy = "THE AK CLOWN's BELLYFLOP!"
 	elif "Ringmaster" in LastHitBy :
 		LastHitBy = "THE RINGMASTER's BELLYFLOP!"
+	elif "HighSpeed" in LastHitBy :
+		LastHitBy = "BOUNCING AROUND WAY TOO FASTTTT!"
 	
 func _physics_process(delta):
 	Controller(delta)
@@ -201,17 +227,27 @@ func _physics_process(delta):
 
 
 func _on_player_collider_area_entered(area):
-	if "Bullet" in area.owner.name && !_iFramesActive:
+	if "Bullet" in area.name:
+		if !_iFramesActive:
+			LastHitBy = area.name
+			_iFramesActive = true
+			_health -= area._damage
+		area.Destruction()
+		
+		_inKnockBack = true
+		velocity = (area.velocity * BULLET_KNOCKBACK_STRENGTH) * int(BULLET_DO_KNOCKBACK)
+		_enemyKnockbackTimer = BULLET_KNOCKBACK_DURATION  * int(BULLET_DO_KNOCKBACK)
+		_currentKnockBackFriction = BULLET_KNOCKBACK_FRICTION
+	elif  !_iFramesActive && "Enemy" in area.owner.name:
 		LastHitBy = area.owner.name
-		_iFramesActive=true
-		var Bullet:Node2D=area.get_parent()
-		Bullet.death()
-		_health -= Bullet.damage
-	if "Enemy" in area.owner.name && !_iFramesActive:
-		LastHitBy = area.owner.name
-		_iFramesActive=true
-		var Enemy:Node2D=area.get_parent()
-		_health -= Enemy.PHYSICAL_DAMAGE
+		_iFramesActive = true
+		var Enemy:Node2D = area.get_parent()
+		_health -= Enemy.PHYSICAL_ATTACK_POWER
+		
+		_inKnockBack = true
+		velocity = (Enemy._playerDirection * PHYSICAL_KNOCKBACK_STRENGTH) * int(ENEMY_DO_PHSYICAL_KNOCKBACK)
+		_enemyKnockbackTimer = PHYSICAL_KNOCKBACK_DURATION  * int(ENEMY_DO_PHSYICAL_KNOCKBACK)
+		_currentKnockBackFriction = PHSYICAL_KNOCKBACK_FRICTION
 	
 func _on_player_collider_area_exited(area):
 	if "Stage" in area.name:

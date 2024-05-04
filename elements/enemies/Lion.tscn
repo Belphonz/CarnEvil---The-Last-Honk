@@ -78,9 +78,6 @@ scale = Vector2(0.08, 0.08)
 sprite_frames = SubResource("SpriteFrames_vn5ji")
 animation = &"Attack"
 
-[node name="CollisionShape2D" parent="." index="1"]
-scale = Vector2(0.18, 0.18)
-
 [node name="CollisionShape2D" parent="EnemyCollider" index="0"]
 scale = Vector2(0.18, 0.18)
 

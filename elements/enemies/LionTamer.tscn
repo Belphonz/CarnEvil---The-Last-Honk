@@ -48,16 +48,14 @@ animations = [{
 
 [node name="LionTamer" instance=ExtResource("1_70cm2")]
 script = ExtResource("2_wmctx")
+PHYSICAL_ATTACK_POWER = 1.0
 
 [node name="Sprite2D" parent="." index="0"]
 scale = Vector2(0.075, 0.077)
 sprite_frames = SubResource("SpriteFrames_fsm27")
 animation = &"Idle"
 
-[node name="CollisionShape2D" parent="." index="1"]
-scale = Vector2(0.06, 0.06)
-
-[node name="EnemyCollider" parent="." index="2"]
+[node name="EnemyCollider" parent="." index="1"]
 scale = Vector2(3, 3)
 
 [node name="CollisionShape2D" parent="EnemyCollider" index="0"]

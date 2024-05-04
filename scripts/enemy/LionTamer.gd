@@ -8,6 +8,7 @@ extends "res://scripts/Enemy/BaseEnemy.gd"
 @export var MOVEMENTBOUNCE_ANGLE = 10
 @export var MOVEMENTBOUNCE_MAX_HEIGHT = 1.5
 @export var MOVEMENTBOUNCE_BOUNCE_Y_AXIS = 0.2
+var velocity
 
 var _lionAlive:bool = true
 var Lion:Node2D = null
@@ -42,13 +43,13 @@ func _process(delta):
 	
 func Move(delta):
 	var sprite = get_child(0) as Node2D
-	velocity += _moveSpeed * _playerDirection
+	velocity = _moveSpeed * _playerDirection
 	Animate()
 
 	if(!_lionAlive):
 		return
-	move_and_slide()
-	velocity = Vector2(0,0)
+	global_position += velocity * delta
+	
 	
 func Animate():
 	var sprite = get_child(0) as Node2D
@@ -69,16 +70,12 @@ func Animate():
 func Attack(delta): # Lion Tamer doesn't attack
 	pass
 
-
-
 func OnDeath():
 	if Lion: 
 		Lion.freeLion()
 	super.OnDeath()	
 
-
 func _on_enemy_collider_area_entered(area):
-	if "PlBullet" in area.owner.name:
-		var Bullet:Node2D=area.get_parent()
-		Bullet.death()
-		_health -= Bullet.damage
+	if "PlBullet" in area.name:
+		area.Destruction()
+		_health -= area._damage
