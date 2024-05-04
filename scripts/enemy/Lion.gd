@@ -1,128 +1,96 @@
 extends "res://scripts/Enemy/BaseEnemy.gd"
 
-@export
-var MOVE_SPEED:float=160
-@export
-var MAX_HEALTH:float=1
-@export
-var backToSideSpeedMult:float=0.25
-@export
-var pounceMult:float=1.5
+@export var MAX_HEALTH:float = 1
+@export var MOVE_SPEED:float = 150
+@export var PHYSICAL_ATTACK_POWER:float = 3
+@export var POUNCE_SPEED_MULTIPLIER:float = 1.1
+@export var ATTACK_DETECTION_RANGE:float = 120
+@export var ATTACK_RANGE:float = 90
 
-@export var PHYSICAL_DAMAGE:float
+@export var BACK_TO_SIDE_SPEED_MULTIPLIER:float = 0.25
+@export var LION_DISTANCE_TO_TAMER_OFFSET:Vector2 = Vector2(-50,0)
 
-@export
-var pounceDist:float = 60
+@export var MOVEMENTBOUNCE_STRENGTH = 0.5
+@export var MOVEMENTBOUNCE_ANGLE = 10
+@export var MOVEMENTBOUNCE_MAX_HEIGHT = 1.5
+@export var MOVEMENTBOUNCE_BOUNCE_Y_AXIS = 0.2
+
 var velocity
+var LionTamer:Node2D = null
+var _tamerAlive:bool = true
 
-@export 
-var minDist:float = 120
-
-@export
-var maxDist:float = 150
-
-@export
-var LionSideOffset:Vector2 = Vector2(-50,0)
-
-var LionTamer:Node2D=null	#TODO:When lion tamer dies, find a way to signal lion, and de-reference LionTamer
-
-var tamerAlive:bool=true
-
-func setTamer(Tamer:Node2D):
-	LionTamer=Tamer
+func SetTamer(Tamer:Node2D):
+	LionTamer = Tamer
 
 func start(player):
 	super.Start(player,MAX_HEALTH)
 	_moveSpeed = MOVE_SPEED
+	_movementBounceStrength = MOVEMENTBOUNCE_STRENGTH
+	_movementBounceAngle = MOVEMENTBOUNCE_ANGLE
+	_movementBounceMaxHeight = MOVEMENTBOUNCE_MAX_HEIGHT
+	_movementBounceBounceYAxis = MOVEMENTBOUNCE_BOUNCE_Y_AXIS
 	
-func freeLion():
-	LionTamer=null
-	tamerAlive=false
+func FreeLion():
+	LionTamer = null
+	_tamerAlive = false
 
 func _process(delta):
-	super._process(delta)
+	Move(delta)
+	Animate(delta)
 	if _health <= 0:
-		onDeath()
+		OnDeath()
 	
-func move(delta):
-	
-	var sprite = get_child(0) as Node2D
+func Move(delta):
 	var areaToReach:Vector2
 	var finalMoveSpeed:float = _moveSpeed
 	
-	var facingDirection = ((_player.global_position - global_position).normalized())
-	
-	if(tamerAlive):	#If the tamer is still alive
-		var playerDist:float=_player.get_global_position().distance_to(LionTamer.get_global_position())
-		if(playerDist>maxDist):	#Lion is too far away to chase player
-			areaToReach=LionTamer.get_global_position()+LionSideOffset
-			finalMoveSpeed *= backToSideSpeedMult;
-			bounce()
-			if EnemySpin(facingDirection) in _leftDirection:
-				(sprite as AnimatedSprite2D).flip_h = true
-			else:
-				(sprite as AnimatedSprite2D).flip_h = false
-			(sprite as AnimatedSprite2D).frame = EnemySpin(facingDirection) 
-			(sprite as AnimatedSprite2D).play("Idle",0,false)
-		elif(playerDist<maxDist && playerDist > minDist):	#Lion can chase player, but cannot reach player
-			areaToReach=get_global_position().direction_to(_player.get_global_position())*minDist + LionTamer.get_global_position()
-			rotation = 0
-			if EnemySpin(facingDirection) in _leftDirection:
-				(sprite as AnimatedSprite2D).flip_h = true
-			else:
-				(sprite as AnimatedSprite2D).flip_h = false
-			(sprite as AnimatedSprite2D).frame = 1
-			(sprite as AnimatedSprite2D).play("Attack",0,false)
+	if(_tamerAlive):	#If the tamer is still alive
+		var playerDist:float = _player.get_global_position().distance_to(LionTamer.get_global_position())
+		if(playerDist > ATTACK_DETECTION_RANGE):	#Lion is too far away to chase player
+			areaToReach = LionTamer.get_global_position() + LION_DISTANCE_TO_TAMER_OFFSET
+			finalMoveSpeed *= BACK_TO_SIDE_SPEED_MULTIPLIER;
+		elif(playerDist < ATTACK_DETECTION_RANGE && playerDist > ATTACK_RANGE):	#Lion can chase player, but cannot reach player
+			areaToReach = get_global_position().direction_to(_player.get_global_position()) * ATTACK_RANGE + LionTamer.get_global_position()
 		else:	#Lion can reach player
-			areaToReach= _player.get_global_position()
-			rotation = 0
-			
+			areaToReach= _player.get_global_position()		
 	else:	#Tamer has died
 		rotation = 0
 		areaToReach= _player.get_global_position()
-		if EnemySpin(facingDirection) in _leftDirection:
-			(sprite as AnimatedSprite2D).flip_h = true
-		else:
-			(sprite as AnimatedSprite2D).flip_h = false
-		(sprite as AnimatedSprite2D).frame =  EnemySpin(facingDirection)  
-		(sprite as AnimatedSprite2D).play("Attack",0,false)
 		
 	if(get_global_position().distance_to(_player.get_global_position())):	#If lion should pounce
-		finalMoveSpeed *= pounceMult
+		finalMoveSpeed *= POUNCE_SPEED_MULTIPLIER
 		
 	var directionToMove:Vector2 = get_global_position().direction_to(areaToReach)
-	velocity=directionToMove * finalMoveSpeed
-	
+	velocity = directionToMove * finalMoveSpeed
 	global_position += velocity * delta
-	
-@export var BOUNCEPOWER = 0.5
-@export var DEGREES = 10
-@export var BOUNCEHEIGHT = 1.5
-@export var BOUNCEY = 0.2
 
-func bounce():
+func Animate(delta):
 	var sprite = get_child(0) as Node2D
-	# rotates only sprite and flips if over the limit
-	sprite.rotate(BOUNCEPOWER * (PI/180))
-	if sprite.rotation_degrees >= DEGREES or sprite.rotation_degrees <= -DEGREES:
-		BOUNCEPOWER = BOUNCEPOWER * -1
-		rotate(BOUNCEPOWER * (PI/180))
-	sprite.move_local_y(BOUNCEY, false)
-	if sprite.position.y >= BOUNCEHEIGHT or sprite.position.y <= -BOUNCEHEIGHT:
-		BOUNCEY = BOUNCEY * -1
-		sprite.move_local_y(BOUNCEY, false)
+	var facingDirection = ((_player.global_position - global_position).normalized())
+	if EnemySpin(facingDirection) in _leftDirection:
+		(sprite as AnimatedSprite2D).flip_h = true
+	else:
+		(sprite as AnimatedSprite2D).flip_h = false
+	if(_tamerAlive):	
+		var playerDist:float=_player.get_global_position().distance_to(LionTamer.get_global_position())
+		if(playerDist > ATTACK_DETECTION_RANGE):
+			(sprite as AnimatedSprite2D).frame = EnemySpin(facingDirection) 
+			(sprite as AnimatedSprite2D).play("Idle",0,false)
+			Bounce()
+		elif(playerDist < ATTACK_DETECTION_RANGE && playerDist > ATTACK_RANGE):
+			rotation = 0
+			(sprite as AnimatedSprite2D).frame = 1
+			(sprite as AnimatedSprite2D).play("Attack",0,false)
+	else:
+		rotation = 0
+		(sprite as AnimatedSprite2D).frame =  EnemySpin(facingDirection)  
+		(sprite as AnimatedSprite2D).play("Attack",0,false)
 	
-func attack(delta):
+func Attack(delta):
 	pass
 	
-func onDeath():
+func OnDeath():
 	if LionTamer:
 		LionTamer.FreeTamer()
-	OnDeath()	
+	super.OnDeath()	
 
-
-func _on_enemy_collider_area_entered(area):
-	if "PlBullet" in area.owner.name:
-		var Bullet:Node2D=area.get_parent()
-		Bullet.death()
-		_health -= Bullet.damage

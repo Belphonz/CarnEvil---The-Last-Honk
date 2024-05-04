@@ -8,10 +8,11 @@ extends "res://scripts/Enemy/BaseEnemy.gd"
 @export var MOVEMENTBOUNCE_ANGLE = 10
 @export var MOVEMENTBOUNCE_MAX_HEIGHT = 1.5
 @export var MOVEMENTBOUNCE_BOUNCE_Y_AXIS = 0.2
-var velocity
 
-var _lionAlive:bool = true
-var Lion:Node2D = null
+
+var _lionAlive : bool = true
+var Lion : Node2D = null
+var velocity
 
 func Start(player,enemyID):
 	super.Start(player,MAX_HEALTH)
@@ -27,7 +28,7 @@ func AddLion(enemyID):
 	Lion = preload("res://elements/Enemies/Lion.tscn").instantiate()
 	Lion.set_global_position(get_global_position() - Vector2(50,0))
 	Lion.start(_player)
-	Lion.setTamer(self)
+	Lion.SetTamer(self)
 	Lion.name = "Enemy Lion" + str(enemyID)
 	get_parent().add_child(Lion)	#Add Lion to enemy manager
 
@@ -72,10 +73,6 @@ func Attack(delta): # Lion Tamer doesn't attack
 
 func OnDeath():
 	if Lion: 
-		Lion.freeLion()
+		Lion.FreeLion()
 	super.OnDeath()	
 
-func _on_enemy_collider_area_entered(area):
-	if "PlBullet" in area.name:
-		area.Destruction()
-		_health -= area._damage

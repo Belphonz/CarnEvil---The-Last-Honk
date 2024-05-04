@@ -7,7 +7,6 @@
 [node name="Node2D" type="Node2D"]
 position = Vector2(509, 113)
 script = ExtResource("1_6igr5")
-health = 0.676
 
 [node name="TextureProgressBar" type="TextureProgressBar" parent="."]
 offset_left = -444.0

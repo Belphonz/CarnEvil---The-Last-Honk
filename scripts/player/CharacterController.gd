@@ -177,7 +177,7 @@ func Create_Bullet(delta,facingdirection,shootPoint):
 	
 	
 func Bounce(delta): 
-	var sprite = get_child(0) as Node2D
+	var sprite = get_node("PlayerSprite") as Node2D
 	# rotates only sprite and flips if over the limit
 	sprite.rotate(MOVEMENTBOUNCE_STRENGTH * (PI/180))
 	if sprite.rotation_degrees >= MOVEMENTBOUNCE_ANGLE or sprite.rotation_degrees <= -MOVEMENTBOUNCE_ANGLE:

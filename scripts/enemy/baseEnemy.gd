@@ -59,6 +59,11 @@ func Bounce():
 	if sprite.position.y >= _movementBounceMaxHeight or sprite.position.y <= -_movementBounceMaxHeight:
 		_movementBounceBounceYAxis = _movementBounceBounceYAxis * -1
 		sprite.move_local_y(_movementBounceBounceYAxis, false)	
+		
+func _on_enemy_collider_area_entered(area):
+	if "PlBullet" in area.name:
+		area.Destruction()
+		_health -= area._damage
 
 
 
