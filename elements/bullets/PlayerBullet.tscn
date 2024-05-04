@@ -17,7 +17,7 @@ func Move(delta):
 	global_position += velocity * delta
 
 func _process(delta):
-	if _bounceCount == _maxBounceCount:
+	if _bounceCount > _maxBounceCount:
 		Destruction()
 	
 	Move(delta)
@@ -40,8 +40,8 @@ func _on_area_entered(area):
 
 func _on_area_exited(area):
 	if \"Stage\" in area.name:
-		print(tan(deg_to_rad(global_position.angle_to_point(Vector2(0,0)))))
-		
+		var n : Vector2 = global_position.direction_to(Vector2(0,0)).normalized()
+		velocity = velocity - 2 * (velocity.dot(n)) * n
 		_bounceCount += 1
 "
 

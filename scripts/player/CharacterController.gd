@@ -68,7 +68,6 @@ func Controller(delta):
 		_moveDirection = Input.get_vector("move_left", "move_right", "move_up", "move_down").normalized()
 		_lastSavedMoveDirection = _moveDirection
 	Dash(delta)
-	print(_moveDirection)
 	if _isDashing and not _bouncingBackIntoStage:
 		velocity = _lastSavedMoveDirection * MOVE_SPEED * DASH_SPEED_MULTIPLIER
 	elif not _bouncingBackIntoStage:
@@ -88,16 +87,11 @@ func VelocityDeath():
 	if (velocity.x != 0 or velocity.y != 0):
 		if (velocity.abs().x > VelocityDeathSpeedX) and velocity.y == 0:
 			_health = 0
-			print("A")
 		if (velocity.abs().y > VelocityDeathSpeedY) and velocity.x == 0:
-			print(velocity.abs().y)
-			print(_lastSavedMoveDirection.abs().y)
 			_health = 0
-			print("B")
 		if (velocity.abs().x > VelocityDeathSpeedX) and velocity.y != 0:
 			if (velocity.abs().y > VelocityDeathSpeedY) and velocity.x != 0:
 				_health = 0
-				print("C")
 				
 func Animate(delta):
 	const leftDirection = [0,1,7]
@@ -221,7 +215,6 @@ func _on_player_collider_area_entered(area):
 	
 func _on_player_collider_area_exited(area):
 	if "Stage" in area.name:
-		print(area.name)
 		_bouncingBackIntoStage = true
 		velocity = - velocity * STAGE_BOUNCE_STRENGTH
 		_bouncingBackIntoStageTimer = STAGE_BOUNCE_DURATION
