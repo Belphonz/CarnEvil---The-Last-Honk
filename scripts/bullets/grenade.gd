@@ -1,12 +1,13 @@
 extends Area2D
 
 var _damage : float
-var _explosionRadiusMultiplier:float = 5
-var _canDamageEnemies:bool = true
-var _airTime:float = 0.8
-var _maxCurveHeight:float = 20
-var _fuseTime:float = 3
-var _explosionLifeTime:float = 1.17
+var _explosionRadiusMultiplier:float
+var _canDamageEnemies:bool
+var _canDamageSelf:bool 
+var _airTime:float
+var _maxCurveHeight:float
+var _fuseTime:float
+var _explosionLifeTime:float
 
 var _startThrow:Vector2
 var _endThrow:Vector2
@@ -90,13 +91,20 @@ func Animate():
 	
 func Explode():
 	var allArea2Ds:Array = get_overlapping_areas()
-	
 	for area in allArea2Ds:
 		if(area.name == "EnemyCollider" && _canDamageEnemies):	#Hit enemy
-			area.get_parent()._health-= _damage
+			if ("Clown" in area.get_parent().name && _canDamageSelf) or ("Clown" not in area.get_parent().name):
+				area.get_parent()._health-= _damage
 		if(area.name == "PlayerCollider"):	#Hit player
 			if(!area.get_parent()._iFramesActive):
-				area.get_parent()._health -= _damage
-				area.get_parent()._iFramesActive = true
-				area.get_parent().LastHitBy = "Grenade"
+				var Player = area.get_parent()
+				Player._health -= _damage
+				Player._iFramesActive = true
+				Player.LastHitBy = "Grenade"
+				
+				Player._inKnockBack = bool(int(true) * int(Player.EXPLOSION_DO_KNOCKBACK))
+				var _playerDirection = (Player.get_global_position() - get_global_position()).normalized()
+				Player.velocity = (_playerDirection * Player.EXPLOSION_KNOCKBACK_STRENGTH) * int(Player.EXPLOSION_DO_KNOCKBACK)
+				Player._enemyKnockbackTimer = Player.EXPLOSION_KNOCKBACK_DURATION  * int(Player.EXPLOSION_DO_KNOCKBACK)
+				Player._currentKnockBackFriction = Player.EXPLOSION_KNOCKBACK_FRICTION
 	

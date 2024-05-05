@@ -10,7 +10,8 @@ extends "res://scripts/Enemy/BaseEnemy.gd"
 @export var CHANGE_DIRECTION_TIMING:float = 4
 
 @export var EXPLOSION_RADIUS_MULTIPLIER:float = 5
-@export var CAN_DAMAGE_ENEMIES:bool = true
+@export var CAN_DAMAGE_ENEMIES:bool = false
+@export var CAN_DAMAGE_SELF:bool = false
 @export var AIR_TIME:float = 0.8
 @export var MAX_CURVE_HEIGHT:float = 20
 @export var FUSE_TIME:float = 3
@@ -35,8 +36,8 @@ var velocity
 
 var _RNG = RandomNumberGenerator.new()
 
-func start(_Player, _maxHealth):
-	super.Start(_Player,_maxHealth)
+func start(_Player):
+	super.Start(_Player,MAX_HEALTH)
 	_moveSpeed = MOVE_SPEED
 	_movementBounceStrength = MOVEMENTBOUNCE_STRENGTH
 	_movementBounceAngle = MOVEMENTBOUNCE_ANGLE
@@ -63,11 +64,11 @@ func CreateGrenade():
 	grenadeI._damage = BOMB_DAMAGE
 	grenadeI._explosionRadiusMultiplier = EXPLOSION_RADIUS_MULTIPLIER
 	grenadeI._canDamageEnemies = CAN_DAMAGE_ENEMIES
+	grenadeI._canDamageSelf = CAN_DAMAGE_SELF
 	grenadeI._airTime = AIR_TIME
 	grenadeI._maxCurveHeight = MAX_CURVE_HEIGHT
 	grenadeI._fuseTime = FUSE_TIME
 	grenadeI._explosionLifeTime = EXPLOSION_LIFETIME
-	grenadeI.name = "Grenade " + str(_grenadeID)
 	grenadeI.Throw(get_global_position(),get_global_position() + throwDirection * THROW_DISTANCE)
 	get_node("../../BulletObject").add_child(grenadeI)
 	_isAttacking = true

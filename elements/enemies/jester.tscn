@@ -33,20 +33,18 @@ animations = [{
 "texture": ExtResource("3_vdu63")
 }],
 "loop": true,
-"name": &"Default",
+"name": &"Idle",
 "speed": 5.0
 }]
 
 [node name="Enemy" instance=ExtResource("1_akicf")]
 scale = Vector2(0.275, 0.275)
 script = ExtResource("2_s703p")
-_moveSpeed = 80.0
-zigTime = 0.2
 
 [node name="Sprite2D" parent="." index="0"]
 position = Vector2(-7.7486e-07, 0)
 scale = Vector2(0.0888889, 0.0888889)
 sprite_frames = SubResource("SpriteFrames_1oamx")
-animation = &"Default"
+animation = &"Idle"
 
 [connection signal="area_entered" from="EnemyCollider" to="." method="_on_enemy_collider_area_entered"]

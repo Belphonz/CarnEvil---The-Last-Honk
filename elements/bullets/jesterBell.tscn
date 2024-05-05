@@ -4,19 +4,19 @@
 [ext_resource type="Texture2D" uid="uid://n0b360p5ayjs" path="res://assets/gfx/Enemy/Jester/Bell.png" id="2_p35kq"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_dg0dc"]
+radius = 36.2215
 
-[node name="Node2D" type="Node2D"]
+[node name="Bell" type="Area2D"]
 script = ExtResource("1_kd5tp")
 
-[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
-scale = Vector2(0.25, 0.25)
-collision_layer = 0
-collision_mask = 0
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-2.98022e-08, -1.49011e-08)
+scale = Vector2(0.076172, 0.0742188)
+texture = ExtResource("2_p35kq")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 2)
+scale = Vector2(0.25, 0.25)
 shape = SubResource("CircleShape2D_dg0dc")
 
-[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
-position = Vector2(-1.19209e-07, -5.96046e-08)
-scale = Vector2(0.304688, 0.296875)
-texture = ExtResource("2_p35kq")
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

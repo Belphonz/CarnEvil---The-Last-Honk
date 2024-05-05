@@ -1,13 +1,13 @@
 extends Node2D
 
-var active:bool = false
+var _active:bool = false
 
-func place(location:Vector2):
+func Place(location:Vector2):
 	set_global_position(location)
-	active=true
+	_active = true
 	
-func destroy():
+func Destroy():
 	pass
 	
-func collide(colliding:Node2D):
+func Collide(colliding:Node2D):
 	pass

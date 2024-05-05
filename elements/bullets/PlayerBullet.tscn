@@ -21,13 +21,13 @@ func _process(delta):
 		Destruction()
 	
 	Move(delta)
-	CreateTrail(delta)
+	CreateTrail()
 	_confettiTimer += delta
 	
 func Destruction():
 	queue_free()
 
-func CreateTrail(delta):	
+func CreateTrail():	
 	if _confettiTimer > _confettiFrequency:
 		var trail : Node2D = preload(\"res://elements/Player/ConfettiTrail.tscn\").instantiate()
 		trail.global_position = global_position
@@ -39,6 +39,23 @@ func _on_area_exited(area):
 		var n : Vector2 = global_position.direction_to(Vector2(0,0)).normalized()
 		velocity = velocity - 2 * (velocity.dot(n)) * n
 		_bounceCount += 1
+
+
+func _on_area_entered(area):
+	if(area.name == \"EnemyCollider\"):	#Hit enemy
+		area.get_parent()._health-= _damage
+		Destruction()
+	if(area.name == \"PlayerCollider\"):	#Hit player
+		if(!area.get_parent()._iFramesActive):
+			var Player = area.get_parent()
+			Player._health -= _damage
+			Player._iFramesActive = true
+			Player.LastHitBy = \"PlBullet\"
+			Player._inKnockBack = bool(int(true) * int(Player.BULLET_DO_KNOCKBACK))
+			Player.velocity = (velocity * Player.BULLET_KNOCKBACK_STRENGTH) * int(Player.BULLET_DO_KNOCKBACK)
+			Player._enemyKnockbackTimer = Player.BULLET_KNOCKBACK_DURATION  * int(Player.BULLET_DO_KNOCKBACK)
+			Player._currentKnockBackFriction = Player.BULLET_KNOCKBACK_FRICTION
+		Destruction()
 "
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_cxhj1"]
@@ -57,4 +74,5 @@ scale = Vector2(8, 8)
 shape = SubResource("CircleShape2D_cxhj1")
 one_way_collision_margin = 3.5
 
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="area_exited" from="." to="." method="_on_area_exited"]
