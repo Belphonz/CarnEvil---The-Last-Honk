@@ -76,6 +76,10 @@ scale = Vector2(0.0289946, 0.0289946)
 texture = ExtResource("4_mbf58")
 offset = Vector2(393.796, 1.15002)
 
+[node name="HealthBar" parent="." instance=ExtResource("9_5hpmp")]
+position = Vector2(-105.158, -83.4189)
+scale = Vector2(0.1, 0.1)
+
 [node name="AudioShoot" type="AudioStreamPlayer2D" parent="."]
 position = Vector2(0, -8.0891)
 stream = SubResource("AudioStreamRandomizer_78hek")
@@ -94,10 +98,6 @@ position = Vector2(0, -8.0891)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerCollider"]
 position = Vector2(-1.77636e-15, -1.01114)
 shape = SubResource("CapsuleShape2D_uvbos")
-
-[node name="HealthBar" parent="." instance=ExtResource("9_5hpmp")]
-position = Vector2(-105.158, -83.4189)
-scale = Vector2(0.1, 0.1)
 
 [connection signal="area_entered" from="PlayerCollider" to="." method="_on_player_collider_area_entered"]
 [connection signal="area_exited" from="PlayerCollider" to="." method="_on_player_collider_area_exited"]

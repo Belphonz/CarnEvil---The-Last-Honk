@@ -54,7 +54,7 @@ func Bounce():
 	sprite.rotate(_movementBounceStrength * (PI/180))
 	if sprite.rotation_degrees >= _movementBounceAngle or sprite.rotation_degrees <= -_movementBounceAngle:
 		_movementBounceStrength = _movementBounceStrength * -1
-		rotate(_movementBounceStrength * (PI/180))
+		sprite.rotate(_movementBounceStrength * (PI/180))
 	sprite.move_local_y(_movementBounceBounceYAxis, false)
 	if sprite.position.y >= _movementBounceMaxHeight or sprite.position.y <= -_movementBounceMaxHeight:
 		_movementBounceBounceYAxis = _movementBounceBounceYAxis * -1

@@ -123,7 +123,7 @@ func VelocityDeath():
 				
 func Animate(delta):
 	const leftDirection = [0,1,7]
-	var animation = get_child(0) as AnimatedSprite2D
+	var animation = get_node("PlayerSprite") as AnimatedSprite2D
 	animation.frame = _rotationFrame
 	
 	if _moveDirection:
@@ -142,8 +142,8 @@ func Animate(delta):
 	
 	
 func Shoot(delta):
-	var shootPoint = get_child(1) as Node2D
-	var audioNoShoot = get_child(3) as AudioStreamPlayer2D
+	var shootPoint = get_node("ShootPoint") as Node2D
+	var audioNoShoot = get_node("AudioNoShoot") as AudioStreamPlayer2D
 	
 	_currentFireRate += delta
 	
@@ -164,7 +164,7 @@ func Shoot(delta):
 		Create_Bullet(facingdirection,shootPoint)
 		
 func Create_Bullet(facingdirection,shootPoint):
-	var audioShoot = get_child(2) as AudioStreamPlayer2D
+	var audioShoot = get_node("AudioShoot") as AudioStreamPlayer2D
 	audioShoot.play()
 	var bulletInstance:Area2D = preload("res://elements/Bullets/PlayerBullet.tscn").instantiate()
 
@@ -186,7 +186,7 @@ func Bounce():
 	sprite.rotate(MOVEMENTBOUNCE_STRENGTH * (PI/180))
 	if sprite.rotation_degrees >= MOVEMENTBOUNCE_ANGLE or sprite.rotation_degrees <= -MOVEMENTBOUNCE_ANGLE:
 		MOVEMENTBOUNCE_STRENGTH = MOVEMENTBOUNCE_STRENGTH * -1
-		rotate(MOVEMENTBOUNCE_STRENGTH * (PI/180))
+		sprite.rotate(MOVEMENTBOUNCE_STRENGTH * (PI/180))
 	sprite.move_local_y(MOVEMENTBOUNCE_BOUNCE_Y_AXIS, false)
 	if sprite.position.y >= MOVEMENTBOUNCE_MAX_HEIGHT or sprite.position.y <= -MOVEMENTBOUNCE_MAX_HEIGHT:
 		MOVEMENTBOUNCE_BOUNCE_Y_AXIS = MOVEMENTBOUNCE_BOUNCE_Y_AXIS * -1
@@ -200,7 +200,7 @@ func Death():
 	var DeathScreen : Node2D = preload("res://scenes/DeathScreen.tscn").instantiate()
 	(DeathScreen.get_node("Deathmessasage") as Label).text = LastHitBy
 	get_tree().root.add_child(DeathScreen)
-	get_tree().root.remove_child(get_tree().root.get_child(1))
+	get_tree().root.remove_child(get_tree().root.get_node("Main"))
 	
 func ProcessDeath():
 	if "PlBullet" in LastHitBy :
