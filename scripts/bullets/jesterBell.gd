@@ -39,7 +39,6 @@ func _on_area_entered(area):
 	if(!_active):
 		return
 	if(area.name == "PlayerCollider"):
-		print("player")
 		var Player:Node2D = area.get_parent()
 		if(!Player._iFramesActive):
 			Player._health -= _damage
@@ -48,7 +47,6 @@ func _on_area_entered(area):
 			
 			var _playerDirection = (Player.get_global_position() - get_global_position()).normalized()	
 			Player._inKnockBack = bool(int(true) * int(Player.BELL_DO_KNOCKBACK))
-			print((_playerDirection * Player.BELL_KNOCKBACK_STRENGTH) * 1.5 * int(Player.BELL_DO_KNOCKBACK))
 			Player.velocity = (_playerDirection * Player.BELL_KNOCKBACK_STRENGTH) * 1.5 * int(Player.BELL_DO_KNOCKBACK)
 			Player._enemyKnockbackTimer = Player.BELL_KNOCKBACK_DURATION  * int(Player.BELL_DO_KNOCKBACK)
 			Player._currentKnockBackFriction = Player.BELL_KNOCKBACK_FRICTION

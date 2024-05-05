@@ -16,7 +16,7 @@ func _ready():
 
 	#spawnClownAK47(Vector2(100,100))
 	#spawnRingmaster(Vector2(100,100))
-	spawnJester(Vector2(100,100))
+	#spawnJester(Vector2(100,100))
 	spawnLionTamer(Vector2(100,100))
 	#spawnClown(Vector2(100,100))
 
@@ -53,7 +53,7 @@ func spawnLionTamer(position:Vector2):
 	EnemyID += 1	#One for the tamer
 	add_child(enemyInstanceNode)
 	enemyInstanceNode.Start(Player,EnemyID)
-	enemyInstanceNode.name="Enemy Lion Tamer" + str(EnemyID)
+	enemyInstanceNode.name="Enemy LionTamer" + str(EnemyID)
 	
 
 func spawnClown(position:Vector2):

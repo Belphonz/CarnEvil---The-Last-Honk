@@ -1,0 +1,51 @@
+[gd_scene load_steps=4 format=3 uid="uid://cv8u4hsyhowji"]
+
+[ext_resource type="Script" path="res://scripts/UI/PauseHandler.gd" id="1_ewqrd"]
+[ext_resource type="Texture2D" uid="uid://qp8eswcuadmh" path="res://assets/gfx/UI/Buttons/Resume.png" id="2_jd1d7"]
+[ext_resource type="Texture2D" uid="uid://dubukc0o65aov" path="res://assets/gfx/UI/Buttons/Menu.png" id="3_cnqgu"]
+
+[node name="PauseHandler" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_ewqrd")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = -394.0
+offset_top = -324.0
+offset_right = 1588.0
+offset_bottom = 938.0
+color = Color(0.101961, 0.403922, 0.321569, 0.811765)
+
+[node name="Resume" type="TextureButton" parent="."]
+layout_mode = 0
+offset_left = -191.0
+offset_top = -87.0
+offset_right = 1327.0
+offset_bottom = 503.0
+scale = Vector2(0.4, 0.4)
+pivot_offset = Vector2(759, 295)
+texture_normal = ExtResource("2_jd1d7")
+ignore_texture_size = true
+stretch_mode = 3
+
+[node name="Menu" type="TextureButton" parent="."]
+layout_mode = 1
+offset_left = -198.0
+offset_top = 173.0
+offset_right = 1322.0
+offset_bottom = 761.0
+scale = Vector2(0.25, 0.25)
+pivot_offset = Vector2(760, 294)
+texture_normal = ExtResource("3_cnqgu")
+ignore_texture_size = true
+stretch_mode = 3
+
+[connection signal="mouse_entered" from="Resume" to="." method="_on_resume_mouse_entered"]
+[connection signal="mouse_exited" from="Resume" to="." method="_on_resume_mouse_exited"]
+[connection signal="pressed" from="Resume" to="." method="_on_resume_pressed"]
+[connection signal="mouse_entered" from="Menu" to="." method="_on_menu_mouse_entered"]
+[connection signal="mouse_exited" from="Menu" to="." method="_on_menu_mouse_exited"]
+[connection signal="pressed" from="Menu" to="." method="_on_menu_pressed"]

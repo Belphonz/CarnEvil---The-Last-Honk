@@ -37,9 +37,12 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Enemy" instance=ExtResource("1_akicf")]
+[node name="Jester" instance=ExtResource("1_akicf")]
 scale = Vector2(0.275, 0.275)
 script = ExtResource("2_s703p")
+MOVE_SPEED = 80.0
+ZIGZAG_ANGLE = 45.0
+ZIGZAG_FREQUENCY = 0.4
 
 [node name="Sprite2D" parent="." index="0"]
 position = Vector2(-7.7486e-07, 0)

@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scripts/UI/TutorialScreen.gd" id="1_5gpcg"]
 [ext_resource type="Texture2D" uid="uid://ddwqkefwe2dr" path="res://assets/gfx/Menu/Backgrounds/BGMenu.png" id="2_l0ni7"]
 [ext_resource type="Texture2D" uid="uid://52ei7jarx11b" path="res://assets/gfx/Menu/ControlsList.png" id="2_t5t2w"]
-[ext_resource type="FontFile" uid="uid://djtmfhr34omsr" path="res://assets/gfx/Fonts/CorrectionBrush.ttf" id="3_4cx53"]
+[ext_resource type="Texture2D" uid="uid://dubukc0o65aov" path="res://assets/gfx/UI/Buttons/Menu.png" id="4_fc2sx"]
 [ext_resource type="AudioStream" uid="uid://c3tijyvbg4uo4" path="res://assets/sfx/Themes/Main_Menu_Theme.wav" id="5_nlafe"]
 
 [node name="Node2D" type="Node2D"]
@@ -19,17 +19,21 @@ position = Vector2(577, 323)
 scale = Vector2(1.745, 1.8)
 texture = ExtResource("2_t5t2w")
 
-[node name="Controls" type="Button" parent="."]
-offset_left = 414.0
-offset_top = 509.0
-offset_right = 750.0
-offset_bottom = 589.0
-theme_override_fonts/font = ExtResource("3_4cx53")
-text = "Return to menu
-"
+[node name="Controls" type="TextureButton" parent="."]
+offset_left = -183.0
+offset_top = 282.0
+offset_right = 1335.0
+offset_bottom = 864.0
+scale = Vector2(0.17, 0.17)
+pivot_offset = Vector2(759, 291)
+texture_normal = ExtResource("4_fc2sx")
+ignore_texture_size = true
+stretch_mode = 3
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("5_nlafe")
 autoplay = true
 
+[connection signal="mouse_entered" from="Controls" to="." method="_on_controls_mouse_entered"]
+[connection signal="mouse_exited" from="Controls" to="." method="_on_controls_mouse_exited"]
 [connection signal="pressed" from="Controls" to="." method="onReturnButtonPressed"]

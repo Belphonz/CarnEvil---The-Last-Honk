@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bolxcixlhgykv"]
+[gd_scene load_steps=9 format=3 uid="uid://bolxcixlhgykv"]
 
 [ext_resource type="PackedScene" uid="uid://shkw5ab00lsl" path="res://scenes/Stage.tscn" id="1_eong5"]
 [ext_resource type="Script" path="res://scripts/UI/MainScene.gd" id="1_we28v"]
@@ -7,6 +7,7 @@
 [ext_resource type="AudioStream" uid="uid://ck86rgpyvyfgx" path="res://assets/sfx/Themes/Game_Theme.wav" id="4_kkpkc"]
 [ext_resource type="PackedScene" uid="uid://btjbvawyjpsqa" path="res://scenes/Highscore.tscn" id="5_pfcbs"]
 [ext_resource type="PackedScene" uid="uid://drbqja0xtoviq" path="res://elements/Enemies/WaveManager.tscn" id="7_yq4m0"]
+[ext_resource type="PackedScene" uid="uid://cv8u4hsyhowji" path="res://scenes/PauseHandler.tscn" id="8_b0mkl"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_we28v")
@@ -35,3 +36,11 @@ enemiesPerWave = [5, 8.0, 10.0]
 [node name="Player" parent="." instance=ExtResource("2_rnxx0")]
 position = Vector2(-120, -224)
 scale = Vector2(2.3, 2.3)
+
+[node name="PauseHandler" parent="Player" instance=ExtResource("8_b0mkl")]
+process_mode = 3
+offset_left = -140.87
+offset_top = -83.913
+offset_right = 1004.13
+offset_bottom = 579.087
+scale = Vector2(0.25, 0.25)

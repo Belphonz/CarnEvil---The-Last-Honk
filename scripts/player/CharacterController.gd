@@ -29,6 +29,9 @@ var _health:float
 var _alive = true
 var LastHitBy : String
 
+var DeathQuote : String
+var DeathMessage : String
+
 
 @export var DASH_SPEED_MULTIPLIER : float = 4
 @export var DASH_DURATION : float = 0.3
@@ -203,21 +206,49 @@ func Death():
 	_alive = false
 	ProcessDeath()
 	var DeathScreen : Node2D = preload("res://scenes/DeathScreen.tscn").instantiate()
-	(DeathScreen.get_node("Deathmessasage") as Label).text = LastHitBy
+	(DeathScreen.get_node("DeathMessage") as Label).text = DeathMessage
+	(DeathScreen.get_node("DeathQuote") as Label).text = DeathQuote
 	get_tree().root.add_child(DeathScreen)
 	get_tree().root.remove_child(get_tree().root.get_node("Main"))
 	
 func ProcessDeath():
 	if "PlBullet" in LastHitBy :
-		LastHitBy = "YOURSELF, IDIOT !"
+		DeathQuote = "Womp Womp"
+		DeathMessage = "You Hit Yourself with Your Own Bullet"
 	elif "EnBullet" in LastHitBy :
-		LastHitBy = "THE AK CLOWN's NONSTOP SPRAY!"
+		DeathQuote = "'HEHE HOHO HAHA EAT LEAD LOSER!'"
+		DeathMessage = "You Were Shot By a ClownWithAnAk47"
 	elif "ClownAK47" in LastHitBy :
-		LastHitBy = "THE AK CLOWN's BELLYFLOP!"
+		DeathQuote = "THE AK CLOWN's BELLYFLOP!"
+		DeathMessage = "You were Beaten to Death By a ClownWithAnAk47"
 	elif "Ringmaster" in LastHitBy :
-		LastHitBy = "THE RINGMASTER's BELLYFLOP!"
+		DeathQuote = "THE RINGMASTER's BELLYFLOP!"
+		DeathMessage = "You Hit Yourself with Your Own Bullet"
 	elif "HighSpeed" in LastHitBy :
-		LastHitBy = "BOUNCING AROUND WAY TOO FASTTTT!"
+		DeathQuote = "BOing BOIng BOINg"
+		DeathMessage = "You Accelerated To Fast and was Turned Into Mush"
+	elif "LionTamer" in LastHitBy :
+		DeathQuote = "'Ew Get This Blood off Of Me !!'"
+		DeathMessage = "You Were Bitch Slapped by the LionTamer"
+	elif "Lion" in LastHitBy :
+		DeathQuote = "*Crunch *Crunch *Slurp"
+		DeathMessage = "You Were Torn To Shreds By the Lion"
+	elif "Grenade" in LastHitBy :
+		DeathQuote = "*Snicker *Snicker 'Boom Boom Let all Return to The Flames !'"
+		DeathMessage = "Your Body was Obliterated by the ClownWithABomb"
+	elif "Clown" in LastHitBy :
+		DeathQuote = "*Tch 'It's a Shame That your Body met not with our Lord of Flame, but your Death is a Sufficient Sacrafice"
+		DeathMessage = "Your Body was crushed under the Pressure of the Clown's Faith"
+	elif "Bell" in LastHitBy :
+		DeathQuote = "'DING DONG YOUR HEAD IS GONE'"
+		DeathMessage = "You were Bludgeoned by the Jester's Bell"
+	elif "Nail" in LastHitBy :
+		DeathQuote = "'LOST YOUR TOES, LOST YOUR LEGS, NEXT I'M COMING FOR YOUR EAD'"
+		DeathMessage = "You tripped Fell and Smacked your head against the Jester's Pile of Nails"
+	elif "Jester" in LastHitBy :
+		DeathQuote = "'THE VOICES ! THE VOICES ! ...what's this Body Doing here ?'"
+		DeathMessage = "You were Caught in the Path of the Jester's Frenzy"
+	
 	
 func _physics_process(delta):
 	Controller(delta)
