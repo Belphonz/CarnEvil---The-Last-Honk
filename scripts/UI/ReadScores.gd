@@ -9,11 +9,7 @@ var currentScene
 var fileArray
 
 func _ready():
-	
-	
-
 	loadScores()
-	var newscore = [1, "ADL", 1921]
 	var json_string = JSON.stringify(file_data)
 	var json = JSON.new()
 	
@@ -45,11 +41,9 @@ func loadScores():
 	var data = JSON.parse_string(file.get_as_text())
 	file_data = data
 
-func Savescore(nam):
+func Savescore():
 	var json = JSON.new()
-	var json_string = JSON.stringify(file_data)
 	fileArray = json.data
-	#fileArray.push_back([ID + 1, nam, runscore])
 
 func sortScores(a, b):
 	if a[2] < b[2]:

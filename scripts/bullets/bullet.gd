@@ -51,7 +51,7 @@ func basicbounce(delta):
 	if bounceCount == maxBounceCount:
 		death()
 
-func createtrail(delta):
+func createtrail():
 	if confettitimer > confettifrequency and isPlayerBullet:
 		var trail : Node2D = preload("res://elements/Player/ConfettiTrail.tscn").instantiate()
 		trail.global_position = global_position
@@ -60,7 +60,7 @@ func createtrail(delta):
 
 func _physics_process(delta):
 	basicbounce(delta)
-	createtrail(delta)
+	createtrail()
 	confettitimer += delta
 	
 

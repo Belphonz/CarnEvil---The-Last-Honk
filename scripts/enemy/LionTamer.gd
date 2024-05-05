@@ -43,7 +43,6 @@ func _process(delta):
 	
 	
 func Move(delta):
-	var sprite = get_child(0) as Node2D
 	velocity = _moveSpeed * _playerDirection
 	Animate()
 
@@ -67,9 +66,6 @@ func Animate():
 		else:
 			(sprite as AnimatedSprite2D).flip_h = false
 	(sprite as AnimatedSprite2D).play("Idle",0,false)
-	
-func Attack(delta): # Lion Tamer doesn't attack
-	pass
 
 func OnDeath():
 	if Lion: 

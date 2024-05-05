@@ -17,7 +17,7 @@ func _ready():
 	#spawnClownAK47(Vector2(100,100))
 	#spawnRingmaster(Vector2(100,100))
 	#spawnJester(Vector2(100,100))
-	#spawnLionTamer(Vector2(100,100))
+	spawnLionTamer(Vector2(100,100))
 	spawnClown(Vector2(100,100))
 
 func getEnemyCount():
@@ -40,7 +40,7 @@ func spawnRingmaster(position:Vector2):
 	add_child(enemyInstanceNode)
 
 func spawnJester(position:Vector2):
-	var enemyInstanceNode=jester.instantiate()
+	var enemyInstanceNode = jester.instantiate()
 	enemyInstanceNode.set_global_position(position)
 	EnemyID+=1
 	enemyInstanceNode.start(Player,1)

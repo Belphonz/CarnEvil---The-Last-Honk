@@ -186,7 +186,7 @@ func move(delta):
 
 func _on_area_2d_area_entered(area):
 	if "PlBullet" in area.owner.name:
-		var Bullet:Node2D=area.get_parent()
+		var Bullet:Node2D = area.get_parent()
 		Bullet.death()
 		_health -= Bullet.damage
 		

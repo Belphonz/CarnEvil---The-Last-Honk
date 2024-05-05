@@ -35,8 +35,7 @@ var LastHitBy : String
 var _currentDashduration : float = 0
 var _isDashing : bool
 
-var _usingController:bool = false
-var isLeft : bool = false
+var _isLeft : bool = false
 var _rotationFrame : int
 var _bouncingBackIntoStage : bool
 var _bouncingBackIntoStageTimer : float
@@ -128,17 +127,17 @@ func Animate(delta):
 	animation.frame = _rotationFrame
 	
 	if _moveDirection:
-		Bounce(delta)
+		Bounce()
 		_rotationFrame = roundi(((_moveDirection.angle() + PI) * 4)/ PI);
 		if _rotationFrame > 7:
 			_rotationFrame -= 8
 		if _rotationFrame in leftDirection:
-			isLeft = true
+			_isLeft = true
 		else:
-			isLeft = false
+			_isLeft = false
 	else:
 		animation.rotation = 0
-	animation.flip_h = isLeft
+	animation.flip_h = _isLeft
 	animation.play("Default",0,false)
 	
 	
@@ -162,9 +161,9 @@ func Shoot(delta):
 	if Input.is_action_just_pressed("shoot") and _currentFireRate < FIRE_RATE:
 		audioNoShoot.play()
 	if Input.is_action_pressed("shoot") and _currentFireRate > FIRE_RATE:
-		Create_Bullet(delta,facingdirection,shootPoint)
+		Create_Bullet(facingdirection,shootPoint)
 		
-func Create_Bullet(delta,facingdirection,shootPoint):
+func Create_Bullet(facingdirection,shootPoint):
 	var audioShoot = get_child(2) as AudioStreamPlayer2D
 	audioShoot.play()
 	var bulletInstance:Area2D = preload("res://elements/Bullets/PlayerBullet.tscn").instantiate()
@@ -181,7 +180,7 @@ func Create_Bullet(delta,facingdirection,shootPoint):
 	_currentFireRate = 0
 	
 	
-func Bounce(delta): 
+func Bounce(): 
 	var sprite = get_node("PlayerSprite") as Node2D
 	# rotates only sprite and flips if over the limit
 	sprite.rotate(MOVEMENTBOUNCE_STRENGTH * (PI/180))
@@ -243,11 +242,12 @@ func _on_player_collider_area_entered(area):
 		velocity = (area.velocity * BULLET_KNOCKBACK_STRENGTH) * int(BULLET_DO_KNOCKBACK)
 		_enemyKnockbackTimer = BULLET_KNOCKBACK_DURATION  * int(BULLET_DO_KNOCKBACK)
 		_currentKnockBackFriction = BULLET_KNOCKBACK_FRICTION
-	elif  !_iFramesActive && area.owner && "Enemy" in area.owner.name:
-		LastHitBy = area.owner.name
-		_iFramesActive = true
+	elif area.owner && "Enemy" in area.owner.name:
 		var Enemy:Node2D = area.get_parent()
-		_health -= Enemy.PHYSICAL_ATTACK_POWER
+		if !_iFramesActive:
+			LastHitBy = area.owner.name
+			_iFramesActive = true
+			_health -= Enemy.PHYSICAL_ATTACK_POWER
 		
 		_inKnockBack = true
 		velocity = (Enemy._playerDirection * PHYSICAL_KNOCKBACK_STRENGTH) * int(ENEMY_DO_PHSYICAL_KNOCKBACK)

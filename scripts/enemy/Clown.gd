@@ -1,4 +1,4 @@
-extends "res://scripts/enemy/BaseEnemy.gd"
+extends "res://scripts/Enemy/BaseEnemy.gd"
 
 @export var MAX_HEALTH:float = 1
 @export var MOVE_SPEED:float = 150
@@ -21,7 +21,7 @@ extends "res://scripts/enemy/BaseEnemy.gd"
 @export var MOVEMENTBOUNCE_MAX_HEIGHT = 1.5
 @export var MOVEMENTBOUNCE_BOUNCE_Y_AXIS = 0.2
 
-var Grenade = preload("res://elements/bullets/grenade.tscn")
+var Grenade = preload("res://elements/Bullets/Grenade.tscn")
 var _grenadeID = 0
 
 var _attackTimer:float = 0
@@ -48,7 +48,7 @@ func start(_Player, _maxHealth):
 	
 func _process(delta):
 	Attack(delta)
-	Animate(delta)
+	Animate()
 	if _isAttacking:
 		_attackAnimationTimer += delta
 	else:
@@ -91,7 +91,7 @@ func Attack(delta):
 		_attackTimer = 0
 		CreateGrenade()	
 
-func Animate(delta):
+func Animate():
 	var animation = get_child(0) as AnimatedSprite2D
 	if(_isAttacking and _attackAnimationTimer > 0.2): #Stop The Attack Animation
 		_isAttacking = false

@@ -36,14 +36,15 @@ func FreeLion():
 
 func _process(delta):
 	Move(delta)
-	Animate(delta)
+	Animate()
 	if _health <= 0:
 		OnDeath()
 	
 func Move(delta):
 	var areaToReach:Vector2
 	var finalMoveSpeed:float = _moveSpeed
-	
+	#For Player KnockBack
+	_playerDirection =(_player.get_global_position() - get_global_position()).normalized()
 	if(_tamerAlive):	#If the tamer is still alive
 		var playerDist:float = _player.get_global_position().distance_to(LionTamer.get_global_position())
 		if(playerDist > ATTACK_DETECTION_RANGE):	#Lion is too far away to chase player
@@ -64,7 +65,7 @@ func Move(delta):
 	velocity = directionToMove * finalMoveSpeed
 	global_position += velocity * delta
 
-func Animate(delta):
+func Animate():
 	var sprite = get_child(0) as Node2D
 	var facingDirection = ((_player.global_position - global_position).normalized())
 	if EnemySpin(facingDirection) in _leftDirection:
@@ -85,9 +86,6 @@ func Animate(delta):
 		rotation = 0
 		(sprite as AnimatedSprite2D).frame =  EnemySpin(facingDirection)  
 		(sprite as AnimatedSprite2D).play("Attack",0,false)
-	
-func Attack(delta):
-	pass
 	
 func OnDeath():
 	if LionTamer:
