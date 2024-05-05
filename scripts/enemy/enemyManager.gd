@@ -17,8 +17,8 @@ func _ready():
 	#spawnClownAK47(Vector2(100,100))
 	#spawnRingmaster(Vector2(100,100))
 	#spawnJester(Vector2(100,100))
-	spawnLionTamer(Vector2(100,100))
-	#spawnClown(Vector2(100,100))
+	#spawnLionTamer(Vector2(100,100))
+	spawnClown(Vector2(100,100))
 
 func getEnemyCount():
 	return get_child_count()

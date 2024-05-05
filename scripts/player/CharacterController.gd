@@ -58,6 +58,11 @@ var HealthBar:Node2D
 @export var BULLET_KNOCKBACK_DURATION = IFRAME_DURATION / 2
 @export var BULLET_KNOCKBACK_FRICTION = 0.7
 
+@export var EXPLOSION_DO_KNOCKBACK : bool = true
+@export var EXPLOSION_KNOCKBACK_STRENGTH = 3000
+@export var EXPLOSION_KNOCKBACK_DURATION = IFRAME_DURATION * 2
+@export var EXPLOSION_KNOCKBACK_FRICTION = 0.9
+
 var _inKnockBack : bool = false
 var _enemyKnockbackTimer : float
 var _currentKnockBackFriction
@@ -238,7 +243,7 @@ func _on_player_collider_area_entered(area):
 		velocity = (area.velocity * BULLET_KNOCKBACK_STRENGTH) * int(BULLET_DO_KNOCKBACK)
 		_enemyKnockbackTimer = BULLET_KNOCKBACK_DURATION  * int(BULLET_DO_KNOCKBACK)
 		_currentKnockBackFriction = BULLET_KNOCKBACK_FRICTION
-	elif  !_iFramesActive && "Enemy" in area.owner.name:
+	elif  !_iFramesActive && area.owner && "Enemy" in area.owner.name:
 		LastHitBy = area.owner.name
 		_iFramesActive = true
 		var Enemy:Node2D = area.get_parent()
@@ -248,6 +253,14 @@ func _on_player_collider_area_entered(area):
 		velocity = (Enemy._playerDirection * PHYSICAL_KNOCKBACK_STRENGTH) * int(ENEMY_DO_PHSYICAL_KNOCKBACK)
 		_enemyKnockbackTimer = PHYSICAL_KNOCKBACK_DURATION  * int(ENEMY_DO_PHSYICAL_KNOCKBACK)
 		_currentKnockBackFriction = PHSYICAL_KNOCKBACK_FRICTION
+	elif "Grenade" in area.name:
+		var Grenade:Area2D = area
+		
+		_inKnockBack = true
+		var _playerDirection = (get_global_position() - Grenade.get_global_position()).normalized()
+		velocity = (_playerDirection * EXPLOSION_KNOCKBACK_STRENGTH) * int(EXPLOSION_DO_KNOCKBACK)
+		_enemyKnockbackTimer = EXPLOSION_KNOCKBACK_DURATION  * int(EXPLOSION_DO_KNOCKBACK)
+		_currentKnockBackFriction = EXPLOSION_KNOCKBACK_FRICTION
 	
 func _on_player_collider_area_exited(area):
 	if "Stage" in area.name:

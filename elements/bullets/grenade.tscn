@@ -1,37 +1,98 @@
-[gd_scene load_steps=7 format=3 uid="uid://bbp7l4j83yvaf"]
+[gd_scene load_steps=13 format=3 uid="uid://bbp7l4j83yvaf"]
 
 [ext_resource type="Texture2D" uid="uid://b03qic2hjhak8" path="res://assets/gfx/Enemy/Clown/Bomb/BombFaceKaboom.png" id="1_e7kvm"]
 [ext_resource type="Script" path="res://scripts/Bullets/Grenade.gd" id="1_m0s6d"]
-[ext_resource type="Texture2D" path="res://assets/gfx/explosionTEMP.png" id="3_a53gt"]
+[ext_resource type="Texture2D" uid="uid://dk7u67l3o8w2a" path="res://assets/gfx/Enemy/Clown/Bomb/Bomb Explosion/Splode1.png" id="2_ps8go"]
+[ext_resource type="Texture2D" uid="uid://cpp8omi8p2k3" path="res://assets/gfx/Enemy/Clown/Bomb/Bomb Explosion/Splode2.png" id="3_tvdnj"]
+[ext_resource type="Texture2D" uid="uid://d3447obr7pqu8" path="res://assets/gfx/Enemy/Clown/Bomb/Bomb Explosion/Splode3.png" id="4_y835g"]
 [ext_resource type="AudioStream" uid="uid://pqmtoo7c0rkv" path="res://assets/sfx/Enemy/Clown/Bomb_Explosion.wav" id="4_yygw7"]
+[ext_resource type="Texture2D" uid="uid://cjp6wtw0dtead" path="res://assets/gfx/Enemy/Clown/Bomb/Bomb Explosion/Splode4.png" id="5_rj23g"]
+[ext_resource type="Texture2D" uid="uid://b2gjycv1t03ob" path="res://assets/gfx/Enemy/Clown/Bomb/Bomb Explosion/Splode5.png" id="6_2mdue"]
+[ext_resource type="Texture2D" uid="uid://b5ykqmnfjdd3t" path="res://assets/gfx/Enemy/Clown/Bomb/Bomb Explosion/Splode6.png" id="7_rks7m"]
+[ext_resource type="Texture2D" uid="uid://bfc2u0w8wy6ro" path="res://assets/gfx/Enemy/Clown/Bomb/Bomb Explosion/Splode7.png" id="8_pmeh5"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_amq55"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_ps8go")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_tvdnj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_y835g")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_rj23g")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_2mdue")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_rks7m")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_pmeh5")
+}],
+"loop": true,
+"name": &"Attack",
+"speed": 7.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_e7kvm")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_f5jp1"]
+radius = 5.38516
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_jnsx6"]
-
-[node name="Node2D" type="Node2D"]
+[node name="Grenade" type="Area2D"]
 script = ExtResource("1_m0s6d")
-explodeRadius = 100.0
-explosionSpriteSize = Vector2(64, 64)
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(-0.21875, -4.21876)
-scale = Vector2(0.0148621, 0.0158386)
-texture = ExtResource("1_e7kvm")
+[node name="GrenadeSprite" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.025, 0.025)
+sprite_frames = SubResource("SpriteFrames_amq55")
+animation = &"Attack"
+frame = 6
 
-[node name="Area2D" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="ExplosionColliderFrame0" type="CollisionShape2D" parent="."]
+visible = false
 shape = SubResource("CircleShape2D_f5jp1")
 
-[node name="ExplosionArea" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ExplosionArea"]
-shape = SubResource("CircleShape2D_jnsx6")
-
-[node name="explosion" type="Sprite2D" parent="."]
+[node name="ExplosionColliderFrame1" type="CollisionShape2D" parent="."]
 visible = false
-texture = ExtResource("3_a53gt")
+scale = Vector2(1.6, 1.6)
+shape = SubResource("CircleShape2D_f5jp1")
+
+[node name="ExplosionColliderFrame2" type="CollisionShape2D" parent="."]
+visible = false
+scale = Vector2(2.3, 2.3)
+shape = SubResource("CircleShape2D_f5jp1")
+
+[node name="ExplosionColliderFrame3" type="CollisionShape2D" parent="."]
+visible = false
+scale = Vector2(2.5, 2.5)
+shape = SubResource("CircleShape2D_f5jp1")
+
+[node name="ExplosionColliderFrame4" type="CollisionShape2D" parent="."]
+visible = false
+scale = Vector2(2.6, 2.6)
+shape = SubResource("CircleShape2D_f5jp1")
+
+[node name="ExplosionColliderFrame5" type="CollisionShape2D" parent="."]
+visible = false
+scale = Vector2(2.7, 2.7)
+shape = SubResource("CircleShape2D_f5jp1")
+
+[node name="ExplosionColliderFrame6" type="CollisionShape2D" parent="."]
+visible = false
+scale = Vector2(2.8, 2.8)
+shape = SubResource("CircleShape2D_f5jp1")
 
 [node name="Explosion" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("4_yygw7")

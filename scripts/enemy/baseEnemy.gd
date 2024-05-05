@@ -27,7 +27,7 @@ func Attack(delta):	 # Virtual Attack Function
 	pass
 	
 func _process(delta):
-	_playerDirection =(_player.get_global_position()-get_global_position()).normalized()
+	_playerDirection =(_player.get_global_position() - get_global_position()).normalized()
 	Attack(delta)
 	Move(delta)
 

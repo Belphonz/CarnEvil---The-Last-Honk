@@ -46,22 +46,18 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="BaseEnemy3" instance=ExtResource("1_0b1j0")]
+[node name="ClownWithBomb" instance=ExtResource("1_0b1j0")]
 scale = Vector2(0.3, 0.3)
 script = ExtResource("2_54rru")
-throwDistance = 128.0
 
 [node name="Sprite2D" parent="." index="0"]
 scale = Vector2(0.13, 0.13)
 sprite_frames = SubResource("SpriteFrames_kxj2k")
 animation = &"Idle"
 
-[node name="CollisionShape2D" parent="." index="1"]
-position = Vector2(-1, 21)
-scale = Vector2(0.879998, 1)
-
 [node name="CollisionShape2D" parent="EnemyCollider" index="0"]
 position = Vector2(-1, 15)
 scale = Vector2(0.858137, 0.961744)
 
 [connection signal="area_entered" from="EnemyCollider" to="." method="_on_enemy_collider_area_entered"]
+[connection signal="area_exited" from="EnemyCollider" to="." method="_on_enemy_collider_area_exited"]

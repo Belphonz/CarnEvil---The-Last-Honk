@@ -60,6 +60,7 @@ height = 20.2228
 [node name="Player" type="Node2D"]
 scale = Vector2(1.97797, 1.97797)
 script = ExtResource("1_anuxd")
+MAX_HEALTH = 15.0
 BULLET_DAMAGE = 1.0
 
 [node name="PlayerSprite" type="AnimatedSprite2D" parent="."]

@@ -1,100 +1,102 @@
-extends Node2D
+extends Area2D
 
-var damage : float
-@export
-var explodeRadius:float=50
+var _damage : float
+var _explosionRadiusMultiplier:float = 5
+var _canDamageEnemies:bool = true
+var _airTime:float = 0.8
+var _maxCurveHeight:float = 20
+var _fuseTime:float = 3
+var _explosionLifeTime:float = 1.17
 
-@export
-var damageEnemies:bool=true
+var _startThrow:Vector2
+var _endThrow:Vector2
 
-@export 
-var airTime:float=0.4	#how long object is thrown for
-
-@export
-var maxCurveHeight:float=20
-
-@export
-var fuseTime:float=3
-
-@export
-var explosionLifeTime:float=1.17
-
-@export
-var explosionSpriteSize:Vector2
-
-var timeInAir:float=0
-
-var startThrow:Vector2
-var endThrow:Vector2
-
-var fuseTimer:float=0
+var _fuseTimer:float = 0
+var _timeInAir:float = 0
+var _explosionTimer:float=0
+var _currentBombState = _bombStates.throw
 
 var explosionArea:Area2D
 
-var explosionTime:float=0
-
-enum state{throw,fuse,explode}
-
-var bombState:state=state.throw
+enum _bombStates{
+	throw,
+	fuse,
+	explode
+}
 
 var explosionSound:AudioStreamPlayer2D
 
-
-func throw(start:Vector2, end:Vector2):
-	startThrow=start
-	endThrow=end
-	bombState=state.throw
-	global_position=start
+func Throw(start:Vector2, end:Vector2):
+	_startThrow = start
+	_endThrow = end
+	_currentBombState = _bombStates.throw
+	global_position = start
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	explosionArea=get_node("ExplosionArea")
+	explosionSound = get_node("Explosion")
 	
-	var CollisionShapeSize=explodeRadius / 10	#Set the size of the explosion area
-	explosionArea.get_child(0).scale=Vector2(CollisionShapeSize,CollisionShapeSize)
 	
-	var explosionSprite:Node2D=get_node("explosion")
-	var explosionSize=Vector2(explodeRadius / explosionSpriteSize.x,explodeRadius / explosionSpriteSize.y)
-	explosionSprite.scale=explosionSize
-	
-	explosionSound=get_node("Explosion")
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if(bombState==state.throw):	#Bomb has been thrown and is flying through the air
-		timeInAir+=delta
-		if(timeInAir>airTime):
-			bombState=state.fuse
-			set_global_position(endThrow)
-			return
-		var pointInCurve:float = timeInAir/airTime
-		var position:Vector2 = lerp(startThrow,endThrow,pointInCurve)
-			
-		var yOffset:float=pointInCurve*-4.0*maxCurveHeight*(1.0-pointInCurve)	#Calculate y offset to add for curve
-		position.y+=yOffset
-			
-		set_global_position(position)
-		return
-	if(bombState==state.fuse):	#Bomb is on the floor and is ticking down
-		fuseTimer+=delta
-		if(fuseTimer>fuseTime):
-			bombState=state.explode
-			explode()
-			get_node("explosion").visible = true #TODO: Add actual explosion animation
-	if(bombState==state.explode):
+	if(_currentBombState == _bombStates.throw):	#Bomb has been thrown and is flying through the air
+		_timeInAir += delta
+		if(_timeInAir > _airTime):
+			_currentBombState = _bombStates.fuse
+			set_global_position(_endThrow)
+		ArcThroughAir()
+	elif(_currentBombState == _bombStates.fuse):	#Bomb is on the floor and is ticking down
+		_fuseTimer += delta
+		if(_fuseTimer > _fuseTime):
+			_currentBombState = _bombStates.explode
+			#Set the Explosion Size
+			scale = scale * _explosionRadiusMultiplier
+	elif(_currentBombState == _bombStates.explode):
 		explosionSound.play()
-		explosionTime+=delta
-		if(explosionTime>=explosionLifeTime):
-			queue_free()
-	
+		_explosionTimer += delta
+		Explode()
+		SetCollision()
 
-func explode():
-	var allArea2Ds:Array=explosionArea.get_overlapping_areas()
+		if(_explosionTimer >= _explosionLifeTime):
+			queue_free()
+	Animate()
+			
+func ArcThroughAir():
+	var pointInCurve:float = _timeInAir/_airTime
+	var position:Vector2 = lerp(_startThrow,_endThrow,pointInCurve)
+	#Calculate y offset to add for curve	
+	var yOffset:float = pointInCurve *- 4.0 * _maxCurveHeight * (1.0 - pointInCurve)	
+	position.y += yOffset
+	set_global_position(position)
+	
+func SetCollision():
+	for Collider in get_children():
+		if "ExplosionColliderFrame" in Collider.name:
+			var explosionSprite : Node2D = get_node("GrenadeSprite")
+			if str((explosionSprite as AnimatedSprite2D).frame) in Collider.name:
+				Collider.visible = true
+			else:
+				Collider.visible = false
+func Animate():
+	var sprite = get_node("GrenadeSprite") as Node2D
+	if _currentBombState == _bombStates.throw or _currentBombState == _bombStates.fuse:
+		(sprite as AnimatedSprite2D).play("Idle",0,false)
+	elif _currentBombState == _bombStates.explode:
+		if not (sprite as AnimatedSprite2D).frame == 6:
+			(sprite as AnimatedSprite2D).play("Attack", (1 / _explosionLifeTime ), false)
+		else:
+			(sprite as AnimatedSprite2D).pause()
+		
+	
+func Explode():
+	var allArea2Ds:Array = get_overlapping_areas()
+	
 	for area in allArea2Ds:
-		if(area.name=="EnemyCollider" && damageEnemies):	#Hit enemy
-			area.get_parent().HP-= damage
-		if(area.name=="PlayerCollider"):	#Hit player
-			if(!area.get_parent().iFramesActive):
-				area.get_parent().HP-= damage
-				area.get_parent().iFramesActive=true
+		if(area.name == "EnemyCollider" && _canDamageEnemies):	#Hit enemy
+			area.get_parent()._health-= _damage
+		if(area.name == "PlayerCollider"):	#Hit player
+			if(!area.get_parent()._iFramesActive):
+				area.get_parent()._health -= _damage
+				area.get_parent()._iFramesActive = true
+				area.get_parent().LastHitBy = "Grenade"
 	
